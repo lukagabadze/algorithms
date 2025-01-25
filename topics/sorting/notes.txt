@@ -1,0 +1,10 @@
+- I think best order to learn these algorithms would be from slowest to fastest.
+
+So you would go
+1) Bubble Sort
+2) Insertion Sort
+3) Selection Sort
+
+4) Merge Sort - in this case, I think it's better to teach recursion first
+and than move on to teaching merge sort.
+Or, I might teach recursion using merge sort.
