@@ -10,3 +10,6 @@ print(arr[:2])
 print(arr[999:])
 
 print(abs(5), abs(-3))
+
+
+print(".".join(str(item) for item in arr))
