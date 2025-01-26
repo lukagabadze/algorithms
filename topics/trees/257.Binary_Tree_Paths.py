@@ -7,6 +7,7 @@ A leaf is a node with no children.
 NOTE
 Good opportunity to explain map
 I had no fucking clue it worked like that. Amazing!
+map and list comprehension in one line, pretty cool!
 """
 
 from utils import array_to_node_tree
