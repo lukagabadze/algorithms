@@ -13,3 +13,9 @@ print(abs(5), abs(-3))
 
 
 print(".".join(str(item) for item in arr))
+
+
+val = 0
+val2 = 1
+print(val == 1)
+print(val2 == 1)
