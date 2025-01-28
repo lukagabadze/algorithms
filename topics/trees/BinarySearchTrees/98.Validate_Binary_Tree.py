@@ -1,3 +1,9 @@
+"""
+NOTE: There must be a FAR FAR better way to do this, with a cleaner code.
+TODO: Look into it.
+"""
+
+
 from utils import array_to_node_tree
 
 class Solution(object):
@@ -12,13 +18,6 @@ class Solution(object):
       
     (left_min, left_max, left_answer) = self.validate(root.left)
     (right_min, right_max, right_answer) = self.validate(root.right)
-
-    print('root.val: ', root.val)
-    print('left_max: ', left_max)
-    print('right_min: ', right_min)
-    print('left_answer: ', left_answer)
-    print('right_answer: ', right_answer)
-    print()
 
     new_min = min(root.val, left_min or float('inf'), right_min or float('inf'))
     new_max = max(root.val, left_max or float('-inf'), right_max or float('-inf'))
