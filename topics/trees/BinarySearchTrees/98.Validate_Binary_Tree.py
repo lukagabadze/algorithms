@@ -1,52 +1,45 @@
 """
 NOTE: There must be a FAR FAR better way to do this, with a cleaner code.
-TODO: Look into it.
+
+CodingNinja has a great simple solution on leetcode: https://leetcode.com/problems/validate-binary-search-tree/solutions/5622933/video-check-range-of-each-node/
 """
 
 
 from utils import array_to_node_tree
 
+"""
+TIME: 2ms (Thanks to CodingNinja!)
+"""
 class Solution(object):
 
   def isValidBST(self, root):
-    (maximum, minimum, answer) = self.validate(root)
-    return answer
+    # The root of the binary search tree can be whatever it wants, from -infinity to +infinity
+    return self.validate(root, float("-inf"), float("inf"))
     
-  def validate(self, root):
+  def validate(self, root, minimum, maximum):
     if root is None:
-      return (None, None, True)
-      
-    (left_min, left_max, left_answer) = self.validate(root.left)
-    (right_min, right_max, right_answer) = self.validate(root.right)
+      return True
 
-    new_min = min(root.val, left_min or float('inf'), right_min or float('inf'))
-    new_max = max(root.val, left_max or float('-inf'), right_max or float('-inf'))
+    if root.val <= minimum or root.val >= maximum:
+      return False
 
-    if left_answer is False or right_answer is False:
-      return (None, None, False)
-    
-    if (left_max is not None and left_max >= root.val) or (right_min is not None and right_min <= root.val):
-      return (new_min, new_max, False)
+    # For left answer, the minimum stays the same, but the maximum value has become root.val (since root.left.val should definetely be under root.val)
+    left_answer = self.validate(root.left, minimum, root.val)
 
-    return (new_min, new_max, True)
+    # For right answer, the maximum stays the same, but the minimum value has become root.val (since root.right.val should definetely be over root.val)
+    right_answer = self.validate(root.right, root.val, maximum)
 
-
-    # print('root.val: ', root.val)
-    # print('left_max: ', left_max)
-    # print('right_min: ', right_min)
-    # print('left_answer: ', left_answer)
-    # print('right_answer: ', right_answer)
-    # print()
+    return left_answer and right_answer
 
 if __name__ == "__main__":
   solution = Solution()
   
-  # tree = [4, 2, 7, 1, 3]
+  tree = [4, 2, 7, 1, 3]
   # tree = [5, 1, 4, None, None, 3, 6]
   # tree = [5, 4, 6, None, None, 3, 7]
   # tree = [15, 2, 25, 1, 3, 14, 26]
   # tree = [45, 42, None, None, 44, 43, None, 41]
-  tree = [1, 0, 0]
+  # tree = [1, 0, 0]
   
   # tree = [5, 4, 10, None, None, 6, 9, None, None, 7, 12]
 
