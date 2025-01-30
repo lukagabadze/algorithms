@@ -26,7 +26,7 @@ from utils import TreeNode, array_to_node_tree
 
 
 """
-TIME: 10ms
+TIME: 8ms
 Not optimal code for this solution, you can do this in one method
 BUT, I think it's easier to understand for anyone wanting to learn
 """
