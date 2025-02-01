@@ -1,5 +1,26 @@
+"""
+NOTE: Just keep splitting the in_order_tree array in half.
+Steps:
+1) Assemble in_order_tree array which holds the nodes
+2) Disassamble the tree, assign every left and right children to None
+3) Recursively
+---- 1) Choose root node, which is length // 2
+---- 2) create left and right subtree, which are left_subtree = arr[:len(arr)], right_subtree = arr[len(arr)+1:]
+---- 3) Assign left subtrees center node to root.left and right subtrees center node to root.right
+---- 4) Run this function on left_subtree and right_subtree
+
+I am the GOAT
+"""
+
+
 from utils import TreeNode, array_to_node_tree
 
+
+"""
+TIME: 63ms (Beats 92.66%)
+MEMORY: 20.72MB (Beats 96.33%)
+I might be the GOAT
+"""
 class Solution(object):
 
   def balanceBST(self, root):
@@ -8,7 +29,7 @@ class Solution(object):
     def build_in_order_tree_array(root):
       if root is None:
         return
- 
+
       build_in_order_tree_array(root.left)
       in_order_tree.append(root)
       build_in_order_tree_array(root.right)
@@ -20,30 +41,29 @@ class Solution(object):
       node.left = None
       node.right = None
 
-    new_root_ind = (len(in_order_tree) - 1) // 2
-    new_root = in_order_tree[new_root_ind]
+    self.balance(in_order_tree)
 
-    # Split it down the middle
-    left_half = list(reversed(in_order_tree[:new_root_ind]))
-    right_half = in_order_tree[new_root_ind + 1:]
+    return in_order_tree[len(in_order_tree) // 2]
+  
+  def balance(self, in_order_tree):
 
-    # Initialize the root
-    new_root.left = left_half[0]
-    new_root.right = right_half[0]
+    if not in_order_tree:
+      return
 
-    # Build the tree around the new root Left side
-    for ind in range(len(left_half)):
-      if ind == 0:
-        continue
-      left_half[ind - 1].left = left_half[ind]
+    center_node_index = len(in_order_tree) // 2
+    center_node = in_order_tree[center_node_index]
 
-    # Build the tree around the new root Right side
-    for ind in range(len(right_half)):
-      if ind == 0:
-        continue
-      right_half[ind - 1].right = right_half[ind]
+    left_subtree = in_order_tree[:center_node_index]
+    right_subtree = in_order_tree[center_node_index + 1:]
 
-    return new_root
+    if left_subtree:
+      center_node.left = left_subtree[len(left_subtree) // 2]
+
+    if right_subtree:
+      center_node.right = right_subtree[len(right_subtree) // 2]
+
+    self.balance(left_subtree)
+    self.balance(right_subtree)
   
     
 
