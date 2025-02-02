@@ -1,52 +1,24 @@
 """
-NOTE: arr[::-1] reversed the array
+NOTE: arr[::-1] reverses the array
+
+NOTE: Could not solve it on my own.
+Thank you to the GOAT lee ("https://leetcode.com/problems/special-binary-string/solutions/113211/java-c-python-easy-and-concise-recursion/")
+and thanks to another GOAT for explaining it further ("https://leetcode.com/problems/special-binary-string/solutions/113211/java-c-python-easy-and-concise-recursion/comments/281761")
 """
 
 
 class Solution(object):
   def makeLargestSpecial(self, s):
+    i = 0
+    count = 0
+    special_maximized_subs = []
+    for (j, c) in enumerate(s):
+      count = count + 1 if c == '1' else count - 1
+      if count == 0:
+        special_maximized_subs.append('1' + self.makeLargestSpecial(s[i+1:j])  + '0')
+        i = j + 1
 
-    answer = s
-    for i in range(len(s)):
-      c = s[i]
-      
-      left_side = s[:i + 1]
-      right_side = s[i + 1:]
-      
-      left_subs = []
-      one_count = 0
-      zero_count = 0
-      for j in range(len(left_side))[::-1]:
-        if left_side[j] == '1':
-          one_count += 1
-        if left_side[j] == '0':
-          zero_count += 1
-        if one_count == zero_count and one_count != 0:
-          left_subs.append(j)
-
-      right_subs = []
-      one_count = 0
-      zero_count = 0
-      for j in range(len(right_side)):
-        if right_side[j] == '1':
-          one_count += 1
-        if right_side[j] == '0':
-          zero_count += 1
-        if one_count == zero_count and one_count != 0:
-          right_subs.append(j)
-      
-      if left_subs and right_subs:
-        for l in left_subs:
-          for r in right_subs:
-            left = s[l : i+1]
-            right = s[i+1 : i+r+2]
-            
-            new_s = s[:l] + right + left + s[i+r+2:]
-            
-            new_s = "".join(new_s)
-            answer = max(new_s, answer)
-
-    return answer
+    return "".join(reversed(sorted(special_maximized_subs)))
   
   
     
