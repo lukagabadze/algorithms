@@ -4,9 +4,6 @@ class TreeNode(object):
         self.left = left
         self.right = right
 
-        # for AVL Trees
-        self.height = height
-
 
 def array_to_node_tree(arr):
   nodes = [TreeNode(val) if val is not None else None for val in arr]

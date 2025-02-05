@@ -1,47 +1,80 @@
-from utils import print_tree, array_to_node_tree
+from utils import print_tree, array_to_node_tree, TreeNode
+
+class AVLTreeNode(object):
+    def __init__(self, val=0, left=None, right=None, height=1):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.height = height
 
 """
 NOTE: I have solved this problem the normal way, BUT
 I want to solve it using AVL Trees now, just to learn about AVL Trees
+
+TIME: 1008 ms XDDD
+THIS SOLUTION IS SO ASS BUT IT'S BEAUTIFUL!
+It taught me AVL Trees which is great!
 """
 class Solution(object):
 
   def balanceBST(self, root):
-    new_root = self.balance_using_avl(root)
+    nodes = self.bst_in_order_array(root, [])
+
+    new_root = AVLTreeNode(nodes[0])
+    for node in nodes[1:]:
+      new_root = self.insert(new_root, node)
+      # print_tree(new_root)
+
+    # Convert the answer to TreeNode class
+    def avl_to_bfs(root):
+      if root is None:
+        return
+
+      return TreeNode(root.val, avl_to_bfs(root.left), avl_to_bfs(root.right))
+
+    new_root = avl_to_bfs(new_root)
+
     return new_root
   
-  def balance_using_avl(self, root):
+  def bst_in_order_array(self, root, arr):
     if root is None:
-      return
+      return []
     
-    # balance the subtrees first
-    left = self.balance_using_avl(root.left)
-    right = self.balance_using_avl(root.right)
-
-    root.left = left
-    root.right = right
+    left = self.bst_in_order_array(root.left, arr)
+    right = self.bst_in_order_array(root.right, arr)
+    return left + right + [root.val]
+  
+  def insert(self, root, val):
+    if root is None:
+      return AVLTreeNode(val)
+    elif root.val > val:
+      root.left = self.insert(root.left, val)
+    elif root.val < val:
+      root.right = self.insert(root.right, val)
+    
     root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
     
     # balance factor
     bf = self.get_height(root.left) - self.get_height(root.right)
 
     # LL, Left-left, left heavy, perform right rotate
-    if bf > 1 and self.get_height(root.left.left) >= self.get_height(root.left.right):
+    if bf > 1 and val < root.left.val:
       return self.rotate_right(root)
 
     # RR, Right-right, right heavy, perform left rotate
-    if bf < -1 and self.get_height(root.right.right) >= self.get_height(root.right.left):
+    if bf < -1 and val > root.right.val:
       return self.rotate_left(root)
 
     # LR, Left-Right, left right heavy, perform left rotation and then right rotation
-    if bf > 1 and self.get_height(root.left.right) > self.get_height(root.left.left):
+    if bf > 1 and val > root.left.val:
       root.left = self.rotate_left(root.left)
       return self.rotate_right(root)
     
     # RL, Right-Left, right left heavy, perform right rotation and then left rotation
-    if bf < -1 and self.get_height(root.right.left) > self.get_height(root.right.right):
+    if bf < -1 and val < root.right.val:
       root.right = self.rotate_right(root.right)
-      return self.rotate_left(root)
+      lefted = self.rotate_left(root)
+      return lefted
 
 
     # otherwise it's balanced, return the root
@@ -107,6 +140,8 @@ if __name__ == "__main__":
   # tree = [15, 2, 25, 1, 3, 14, 26]
 
   # tree = [9, 2, 14, 1, 3, 11, 15, None, None, None, 7, None, 12, None, 17]
+
+  # tree = [3, 2, 9, None, None, 7, 11, None, None, None, 12]
 
   root = array_to_node_tree(tree)
 
