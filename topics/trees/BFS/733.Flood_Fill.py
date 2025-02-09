@@ -12,9 +12,8 @@ class Solution:
     m = len(image[0])
     
     while queue:
-      (i, j) = queue.pop()
-      visited.add((i, j))
-      
+      (i, j) = queue.pop(0) # Pop from start
+
       image[i][j] = color
       
       points_of_interest = [
@@ -23,14 +22,11 @@ class Solution:
         (i, j + 1),
         (i, j - 1),
       ]
-      filtered = [
-        (i, j) for (i, j) in points_of_interest
-        if (i >= 0 and j >= 0 and i < n and j < m)
-        and image[i][j] == root_color
-        and (i, j) not in visited
-      ]
       
-      queue += filtered
+      for i, j in points_of_interest:
+        if (i >= 0 and j >= 0 and i < n and j < m) and image[i][j] == root_color and (i, j) not in visited:
+          queue.append((i, j))
+          visited.add((i, j))
 
     return image
 

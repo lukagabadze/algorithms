@@ -29,8 +29,7 @@ class Solution(object):
       answer += 1
       queue = [(i, j)]
       while queue:
-        (x, y) = queue.pop()
-        visited.add((x, y))
+        (x, y) = queue.pop(0) # Pop from left
         
         # Two ways of doing the checks
         # 1) array and list comprehension
@@ -43,26 +42,34 @@ class Solution(object):
         #   (x - 1, y),
         #   (x + 1, y),
         # ]
-        # filtered = [
-        #   (x, y) for (x, y) in points_of_interest if
-        #   ((x, y) not in visited) and  # it is not visited
-        #   (x >= 0 and x < m and y >= 0 and y < n) and # it is in range of grid width and length
-        #   (grid[x][y] == '1') # it is a land
-        # ]
-        # queue += filtered
+
+        # for x, y in points_of_interest:
+        #   if (
+        #     ((x, y) not in visited) and  # it is not visited
+        #     (x >= 0 and x < m and y >= 0 and y < n) and # it is in range of grid width and length
+        #     (grid[x][y] == '1')  # it is a land
+        #   ):
+        #     queue.append((x, y))
+        #     visited.add((x, y))
+            
+
         
         # Second method
         if x - 1 >= 0 and grid[x - 1][y] == '1' and (x - 1, y) not in visited:
           queue += [(x-1, y)]
+          visited.add((x - 1, y))
 
         if x + 1 < m and grid[x + 1][y] == '1' and (x + 1, y) not in visited:
           queue += [(x + 1, y)]
+          visited.add((x + 1, y))
 
         if y - 1 >= 0 and grid[x][y - 1] == '1' and (x, y - 1) not in visited:
           queue += [(x, y - 1)]
+          visited.add((x, y - 1))
 
         if y + 1 < n and grid[x][y + 1] == '1' and (x, y + 1) not in visited:
           queue += [(x, y + 1)]
+          visited.add((x, y + 1))
 
     return answer
 
