@@ -1,0 +1,7 @@
+After teaching BFS on trees it seems like a good idea to move on to
+different data structures where BFS also applies, mostly matrixes
+
+Good problem to start of with that is:
+  Medium:
+  200 Number of islands
+  1091 Shortest Path in Binary Matrix
