@@ -1,6 +1,11 @@
 After teaching BFS on trees it seems like a good idea to move on to
 different data structures where BFS also applies, mostly matrixes
 
+NOTE:
+IT IS IMPORTANT TO USE pop(0) to pop from left (start) NOT pop()
+pop() causes the queue to pop from the right which causes the solution to act like DFS (LIFO)
+we want BFS, so we should pop from the start pop(0) popping from the start, BFS (FIFO)
+
 Good problem to start of with that is:
   Medium:
   200 Number of islands
