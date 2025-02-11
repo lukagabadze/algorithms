@@ -14,3 +14,4 @@ Good problem to start of with that is:
   Medium:
   200 Number of islands
   1091 Shortest Path in Binary Matrix
+  751 Open the lock (NOTE: this problem showcases the time complexities of list vs set, ABSOLUTE MUST KNOW!!!!!)
