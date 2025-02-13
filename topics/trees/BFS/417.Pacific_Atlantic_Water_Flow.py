@@ -1,71 +1,74 @@
-"""
-This problem does not involve graphs or trees so
-I think this should be tough later just to teach that
-BFS also applies with matrixes and other data types
-NOTE: You can teach list comprehension here as well as a BONUS
-"""
-
 from collections import deque
 
+"""
+TIME: 688ms HORRIBLE, but accepted
+TODO: Look for a better solution
+"""
 class Solution(object):
   def pacificAtlantic(self, heights):
-    visited = set()
-    answers_map = [[(False, False)] * len(row) for row in heights]
-
-    # for row in answers_map:
-    #   print(" ".join(map(str, row)))
-
     m = len(heights)
     n = len(heights[0])
+    answers = []
+
+    # Initialize the ocean map with (-1, -1).
+    # This will hold the (pacific, atlantic) values for
+    # every point which we already know the answer to.
+    ocean_map = [[(-1, -1)] * len(row) for row in heights]
     
     for i in range(m):
       for j in range(n):
-        if (i, j) in visited:
-          continue
-        
-        queue = deque([(i, j, False, False)])
-        # visited.add((i, j))
+
+        queue = deque([(i, j)])
         visited = {(i, j)}
+        pacific = False
+        atlantic = False
         while queue:
-          (i, j, pacific, atlantic) = queue.popleft()
-          visited.add((i, j))
+          (x, y) = queue.popleft()
           
-          pacific = pacific or i == 0 or j == 0
-          atlantic = atlantic or i == m - 1 or j == n - 1
-          print('i, j', i, j)
-          answers_map[i][j] = (pacific, atlantic)
+          pacific = pacific or x == 0 or y == 0
+          atlantic = atlantic or x == m - 1 or y == n - 1
+          
+          if pacific and atlantic:
+            break
           
           points_of_interest = [
-            (i - 1, j),
-            (i + 1, j),
-            (i, j + 1),
-            (i, j - 1),
+            (x - 1, y),
+            (x + 1, y),
+            (x, y + 1),
+            (x, y - 1),
           ]
           filtered = [
-            (x, y, pacific, atlantic) for (x, y) in points_of_interest
-            if (x, y) not in visited
-            and x >= 0 and x < m and y >= 0 and y < n
-            and heights[x][y] <= heights[i][j]
+            (k, f) for (k, f) in points_of_interest
+            if (k, f) not in visited
+            and k >= 0 and k < m and f >= 0 and f < n
+            and heights[k][f] <= heights[x][y]
           ]
-          queue.extend(filtered)
 
-    # for row in answers_map:
-    #   print(" ".join(map(str, row)))
+          for k, f in filtered:
+            visited.add((k, f))
 
-    
-    answer = []
-    for i in range(m):
-      for j in range(n):
-        if answers_map[i][j] == (True, True):
-          answer.append([i, j])
+            if ocean_map[k][f][0] != -1:
+              pacific = pacific or ocean_map[k][f][0]
+              atlantic = atlantic or ocean_map[k][f][1]
+            else:
+              queue.append((k, f))
 
-    return answer
+        # If the point reached to both pacific and atlantic update the answers array
+        if pacific and atlantic:
+          answers.append([i, j])
+
+        # Mark the result in ocean_map for later navigation
+        ocean_map[i][j] = (pacific, atlantic)
+
+    return answers
 
 
 if __name__ == "__main__":
   solution = Solution()
   
-  heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+  # heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+  
+  heights = [[2,1],[1,2]]
 
   print("heights:");
   for row in heights:
