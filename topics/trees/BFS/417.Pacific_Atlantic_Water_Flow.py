@@ -7,7 +7,7 @@ https://leetcode.com/problems/pacific-atlantic-water-flow/solutions/1126938/shor
 from collections import deque
 
 """
-TIME: 80ms
+TIME: 65ms
 NOTE: Much better than my previous brute force BFS solution.
 """
 class Solution(object):
@@ -38,12 +38,12 @@ class Solution(object):
           queue.append((k, f))
       return visited
 
-    # Pacific edges
-    queue = deque([(i, 0) for i in range(m)] + [(0, i) for i in range(n)])
+    # Pacific edges (range(1, n) to avoid putting (0, 0) twice)
+    queue = deque([(i, 0) for i in range(m)] + [(0, i) for i in range(1, n)])
     pacific_visited = travel(queue)
     
-    # Atlantic edges
-    queue = deque([(i, n - 1) for i in range(m)] + [(m - 1, i) for i in range(n)])
+    # Atlantic edges (range(n-1) to avoid putting (m, n) twice)
+    queue = deque([(i, n - 1) for i in range(m)] + [(m - 1, i) for i in range(n - 1)])
     atlantic_visited = travel(queue)
     
     # Answers are points which were covered in poth pacific and atlantic BFS travels
