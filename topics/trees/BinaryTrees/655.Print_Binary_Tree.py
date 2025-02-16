@@ -23,69 +23,70 @@ Return the constructed matrix res.
 
 from utils import array_to_node_tree
 
+
 class Solution(object):
-    
-  answer = []
-  height = 0
-  m = 0
-  n = 0
 
-  def printTree(self, root):
-    self.height = self.find_height(root)
-    self.m = self.height
-    self.n = 2 ** (self.height) - 1
-    
-    # Create the empty answers array
-    self.answer = [[""]  * self.n  for _ in range(self.m)] 
-    
-    # Fill the root in answer with r (row) and c (column)
-    r = 0
-    c = self.n // 2
-    self.answer[r][c] = str(root.val)
+    answer = []
+    height = 0
+    m = 0
+    n = 0
 
-    self.fill_answer(root, r, c)
-    return self.answer
+    def printTree(self, root):
+        self.height = self.find_height(root)
+        self.m = self.height
+        self.n = 2 ** (self.height) - 1
 
-  def fill_answer(self, node, r, c):
-    if node is None:
-      return
+        # Create the empty answers array
+        self.answer = [[""] * self.n for _ in range(self.m)]
 
-    if node.left:
-      left_r = r + 1
-      left_c = c - 2 ** (self.m - r - 2)
-      self.answer[left_r][left_c] = str(node.left.val)
-      self.fill_answer(node.left, left_r, left_c)
+        # Fill the root in answer with r (row) and c (column)
+        r = 0
+        c = self.n // 2
+        self.answer[r][c] = str(root.val)
 
-    if node.right:
-      right_r = r + 1
-      right_c = c + 2 ** (self.m - r - 2)
-      self.answer[right_r][right_c] = str(node.right.val)
-      self.fill_answer(node.right, right_r, right_c)
+        self.fill_answer(root, r, c)
+        return self.answer
 
-    return
+    def fill_answer(self, node, r, c):
+        if node is None:
+            return
 
-  def find_height(self, root):
-    if root is None:
-      return 0
+        if node.left:
+            left_r = r + 1
+            left_c = c - 2 ** (self.m - r - 2)
+            self.answer[left_r][left_c] = str(node.left.val)
+            self.fill_answer(node.left, left_r, left_c)
 
-    left_height = self.find_height(root.left)
-    right_height = self.find_height(root.right)
-    
-    return max(left_height, right_height) + 1
+        if node.right:
+            right_r = r + 1
+            right_c = c + 2 ** (self.m - r - 2)
+            self.answer[right_r][right_c] = str(node.right.val)
+            self.fill_answer(node.right, right_r, right_c)
+
+        return
+
+    def find_height(self, root):
+        if root is None:
+            return 0
+
+        left_height = self.find_height(root.left)
+        right_height = self.find_height(root.right)
+
+        return max(left_height, right_height) + 1
 
 
 if __name__ == "__main__":
-  solution = Solution()
-  
-  tree = [1, 2, 3, None, 4]
-  # tree = [1, 2, 3, None, 5]
-  # tree = [3, 9, 20, None, None, 15, 7];
-  # tree = [1, 2, 2, 3, None, None, 3, 4, None, None, 4]
+    solution = Solution()
 
-  root = array_to_node_tree(tree)
+    tree = [1, 2, 3, None, 4]
+    # tree = [1, 2, 3, None, 5]
+    # tree = [3, 9, 20, None, None, 15, 7];
+    # tree = [1, 2, 2, 3, None, None, 3, 4, None, None, 4]
 
-  print("tree: ", tree);
-  print("\n")
-  answer = solution.printTree(root)
-  print("\n")
-  print("answer: ", answer)
+    root = array_to_node_tree(tree)
+
+    print("tree: ", tree)
+    print("\n")
+    answer = solution.printTree(root)
+    print("\n")
+    print("answer: ", answer)

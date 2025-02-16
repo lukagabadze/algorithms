@@ -30,59 +30,59 @@ TIME: 8ms
 Not optimal code for this solution, you can do this in one method
 BUT, I think it's easier to understand for anyone wanting to learn
 """
+
+
 class Solution(object):
-  
-  in_order_tree = []
 
-  def recoverTree(self, root):
-    self.in_order_tree = [] # Very weird, without this line leetcode fails on this test `tree = [3, 1, 4, None, None, 2]`
-    self.in_order_assemble(root)
-    self.recover_in_order_bfs_array()
-    # print([node.val for node in self.in_order_tree])
-    
-  def recover_in_order_bfs_array(self):
-    first_anomaly_node = None
-    second_anomaly_node = None
-    
-    for index, node in enumerate(self.in_order_tree):
-      if index is 0:
-        continue
+    in_order_tree = []
 
-      if not first_anomaly_node and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val:
-        first_anomaly_node = self.in_order_tree[index - 1]
+    def recoverTree(self, root):
+        # Very weird, without this line leetcode fails on this test `tree = [3, 1, 4, None, None, 2]`
+        self.in_order_tree = []
+        self.in_order_assemble(root)
+        self.recover_in_order_bfs_array()
+        # print([node.val for node in self.in_order_tree])
 
-      if first_anomaly_node and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val:
-        second_anomaly_node = self.in_order_tree[index]        
+    def recover_in_order_bfs_array(self):
+        first_anomaly_node = None
+        second_anomaly_node = None
 
-    if first_anomaly_node and second_anomaly_node:
-      first_anomaly_node.val, second_anomaly_node.val = second_anomaly_node.val, first_anomaly_node.val
+        for index, node in enumerate(self.in_order_tree):
+            if index is 0:
+                continue
 
-    
-  def in_order_assemble(self, root):
-    if root is None:
-      return True
-    
-    self.in_order_assemble(root.left)
-    self.in_order_tree.append(root)
-    self.in_order_assemble(root.right)
+            if not first_anomaly_node and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val:
+                first_anomaly_node = self.in_order_tree[index - 1]
 
+            if first_anomaly_node and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val:
+                second_anomaly_node = self.in_order_tree[index]
 
-    
+        if first_anomaly_node and second_anomaly_node:
+            first_anomaly_node.val, second_anomaly_node.val = second_anomaly_node.val, first_anomaly_node.val
+
+    def in_order_assemble(self, root):
+        if root is None:
+            return True
+
+        self.in_order_assemble(root.left)
+        self.in_order_tree.append(root)
+        self.in_order_assemble(root.right)
+
 
 if __name__ == "__main__":
-  solution = Solution()
-  
-  # tree = [1, 3, None, None, 2]
-  tree = [3, 1, 4, None, None, 2]
-  # tree = [4, 2, 7, 1, 3]
-  
-  # tree = [12, 4, 10, None, None, 6, 18, None, None, 5, 21]
-  # tree = [8, 4, 13, 1, 11, 7, 18, None, None, None, None, None, None, 15, 21]
+    solution = Solution()
 
-  root = array_to_node_tree(tree)
+    # tree = [1, 3, None, None, 2]
+    tree = [3, 1, 4, None, None, 2]
+    # tree = [4, 2, 7, 1, 3]
 
-  print("tree: ", tree);
-  print("\n")
-  answer = solution.recoverTree(root)
-  print("\n")
-  print("answer: ", answer)
+    # tree = [12, 4, 10, None, None, 6, 18, None, None, 5, 21]
+    # tree = [8, 4, 13, 1, 11, 7, 18, None, None, None, None, None, None, 15, 21]
+
+    root = array_to_node_tree(tree)
+
+    print("tree: ", tree)
+    print("\n")
+    answer = solution.recoverTree(root)
+    print("\n")
+    print("answer: ", answer)

@@ -1,6 +1,7 @@
 
 from utils import TreeNode, array_to_node_tree, print_tree
 
+
 class AVLTreeNode(object):
     def __init__(self, val=0, left=None, right=None, height=1):
         self.val = val
@@ -17,113 +18,117 @@ TIME: 620ms
 SLOW AS SHIT
 but it's AVL Trees so good to learn
 """
+
+
 class Solution(object):
 
-  def insertIntoBST(self, root, val):
-    def navigate(root):
-      if root is None:
-        return []
-      left = navigate(root.left)
-      right = navigate(root.right)
-      return left + right + [root.val]
+    def insertIntoBST(self, root, val):
+        def navigate(root):
+            if root is None:
+                return []
+            left = navigate(root.left)
+            right = navigate(root.right)
+            return left + right + [root.val]
 
-    nodes = navigate(root) + [val]
+        nodes = navigate(root) + [val]
 
-    root = None
-    for node in nodes:
-      root = self.insert(root, node)
-    
-    # Convert it back to BSF TreeNode
-    def convert(root):
-      if root:
-        return TreeNode(root.val, convert(root.left), convert(root.right))
+        root = None
+        for node in nodes:
+            root = self.insert(root, node)
 
-    return convert(root)
+        # Convert it back to BSF TreeNode
+        def convert(root):
+            if root:
+                return TreeNode(root.val, convert(root.left), convert(root.right))
 
-  def insert(self, root, val):
-    if root is None:
-      return AVLTreeNode(val)
-    elif val > root.val:
-      root.right = self.insert(root.right, val)
-    elif val < root.val:
-      root.left = self.insert(root.left, val)
+        return convert(root)
 
-    # Update the height after insert
-    self.set_height(root)
+    def insert(self, root, val):
+        if root is None:
+            return AVLTreeNode(val)
+        elif val > root.val:
+            root.right = self.insert(root.right, val)
+        elif val < root.val:
+            root.left = self.insert(root.left, val)
 
-    # After inserting, let's balance the tree
-    # Balancing it takes O(1) time
+        # Update the height after insert
+        self.set_height(root)
 
-    # Balance Factor
-    bf = self.get_height(root.left) - self.get_height(root.right)
+        # After inserting, let's balance the tree
+        # Balancing it takes O(1) time
 
-    # Right heavy, do left rotation
-    if bf < -1 and val > root.right.val:
-      return self.left_rotate(root)
-    
-    # Left heavy, do right rotation
-    if bf > 1 and val < root.left.val:
-      return self.right_rotate(root)
-    
-    # Left Right heavy, do left and then right rotation
-    if bf > 1 and val > root.left.val:
-      root.left = self.left_rotate(root.left)
-      return self.right_rotate(root)
-    
-    if bf < -1 and val < root.right.val:
-      root.right = self.right_rotate(root.right)
-      return self.left_rotate(root)
+        # Balance Factor
+        bf = self.get_height(root.left) - self.get_height(root.right)
 
-    # If none of the above if statements are true,
-    # that means the subtree is balanced, return root
-    return root
+        # Right heavy, do left rotation
+        if bf < -1 and val > root.right.val:
+            return self.left_rotate(root)
 
-  def left_rotate(self, node):
-    A = node
-    B = node.right
-    temp = B.left
+        # Left heavy, do right rotation
+        if bf > 1 and val < root.left.val:
+            return self.right_rotate(root)
 
-    B.left = A
-    A.right = temp
+        # Left Right heavy, do left and then right rotation
+        if bf > 1 and val > root.left.val:
+            root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
 
-    self.set_height(A)
-    self.set_height(B)
+        if bf < -1 and val < root.right.val:
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
 
-    return B
+        # If none of the above if statements are true,
+        # that means the subtree is balanced, return root
+        return root
 
-  def right_rotate(self, node):
-    A = node
-    B = node.left
-    temp = B.right
+    def left_rotate(self, node):
+        A = node
+        B = node.right
+        temp = B.left
 
-    B.right = A
-    A.left = temp
+        B.left = A
+        A.right = temp
 
-    self.set_height(A)
-    self.set_height(B)
+        self.set_height(A)
+        self.set_height(B)
 
-    return B
+        return B
 
-  def get_height(self, node):
-    return 0 if not node else node.height
-  
-  def set_height(self, node):
-    node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
+    def right_rotate(self, node):
+        A = node
+        B = node.left
+        temp = B.right
+
+        B.right = A
+        A.left = temp
+
+        self.set_height(A)
+        self.set_height(B)
+
+        return B
+
+    def get_height(self, node):
+        return 0 if not node else node.height
+
+    def set_height(self, node):
+        node.height = 1 + max(self.get_height(node.left),
+                              self.get_height(node.right))
+
 
 if __name__ == "__main__":
-  solution = Solution()
-  
-  tree = [4,2,7,1,3]
-  val = 5
+    solution = Solution()
 
-  # tree = []
-  # val = 5
+    tree = [4, 2, 7, 1, 3]
+    val = 5
 
-  root = array_to_node_tree(tree)
+    # tree = []
+    # val = 5
 
-  print_tree(root)
-  print("val: ", val);
-  print("\n")
-  new_root = solution.insertIntoBST(root, val)
-  print("ANSWER: ")
-  print_tree(new_root)
+    root = array_to_node_tree(tree)
+
+    print_tree(root)
+    print("val: ", val)
+    print("\n")
+    new_root = solution.insertIntoBST(root, val)
+    print("ANSWER: ")
+    print_tree(new_root)
