@@ -14,7 +14,6 @@ from utils import array_to_node_tree
 
 
 class Solution(object):
-
     def binaryTreePaths(self, root):
         paths = self.find_paths(root)
         return ["->".join(map(str, reversed(path))) for path in paths]

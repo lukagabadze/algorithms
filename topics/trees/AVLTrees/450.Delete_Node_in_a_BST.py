@@ -3,7 +3,6 @@ TODO: Solve this using the normal way as well.
 It might be very very simple, just assign left or right child, or find minimum on the right, easy (maybe).
 """
 
-
 from utils import TreeNode, array_to_node_tree, print_tree
 
 
@@ -187,14 +186,15 @@ class Solution(object):
         return B
 
     def get_balance_factor(self, node):
-        return 0 if not node else self.get_height(node.left) - self.get_height(node.right)
+        return (
+            0 if not node else self.get_height(node.left) - self.get_height(node.right)
+        )
 
     def get_height(self, node):
         return 0 if not node else node.height
 
     def set_height(self, node):
-        node.height = 1 + max(self.get_height(node.left),
-                              self.get_height(node.right))
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
 
 
 if __name__ == "__main__":

@@ -16,7 +16,6 @@ Thanks to the GOAT Mohammed Raziullah Ansari for this fix!!!
 (https://leetcode.com/problems/open-the-lock/solutions/5057116/faster-lesser-detailed-explaination-bfs-step-by-step-explaination-python-java-c/)
 """
 
-
 from collections import deque
 
 
@@ -32,8 +31,8 @@ class Solution:
         if target == "0000":
             return 0
 
-        queue = deque([('0000', 0)])
-        visited = {'0000'}
+        queue = deque([("0000", 0)])
+        visited = {"0000"}
         answer = -1
 
         while queue:
@@ -47,12 +46,12 @@ class Solution:
             d = [-1, 1]
 
             def get_state(arr):
-                state = ''
+                state = ""
                 for num in arr:
                     if num < 0:
-                        state += '9'
+                        state += "9"
                     elif num > 9:
-                        state += '0'
+                        state += "0"
                     else:
                         state += str(num)
                 return state
@@ -78,8 +77,8 @@ if __name__ == "__main__":
     deadends = ["0201", "0101", "0102", "1212", "2002"]
     target = "0202"
 
-    print('deadends: ', deadends)
-    print('target: ', target)
-    print('\n')
+    print("deadends: ", deadends)
+    print("target: ", target)
+    print("\n")
     answer = solution.openLock(deadends, target)
-    print('answer: ', answer)
+    print("answer: ", answer)

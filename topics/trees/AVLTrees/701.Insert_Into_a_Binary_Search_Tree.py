@@ -1,4 +1,3 @@
-
 from utils import TreeNode, array_to_node_tree, print_tree
 
 
@@ -21,7 +20,6 @@ but it's AVL Trees so good to learn
 
 
 class Solution(object):
-
     def insertIntoBST(self, root, val):
         def navigate(root):
             if root is None:
@@ -111,8 +109,7 @@ class Solution(object):
         return 0 if not node else node.height
 
     def set_height(self, node):
-        node.height = 1 + max(self.get_height(node.left),
-                              self.get_height(node.right))
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
 
 
 if __name__ == "__main__":

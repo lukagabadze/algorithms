@@ -7,14 +7,12 @@ NOTE: While loops are necessary here!
 TODO: Maybe I can simplify the code
 """
 
-
 """
 TIME: 0ms
 """
 
 
 class Solution(object):
-
     def trimBST(self, root, low, high):
         # Check for root and move onto
         while (root and root.val is not None) and (root.val < low or root.val > high):
@@ -30,10 +28,10 @@ class Solution(object):
         if root is None:
             return None
 
-        while (root.left and root.left.val is not None and root.left.val < low):
+        while root.left and root.left.val is not None and root.left.val < low:
             root.left = root.left.right
 
-        while (root.right and root.right.val is not None and root.right.val > high):
+        while root.right and root.right.val is not None and root.right.val > high:
             root.right = root.right.left
 
         self.trim_subtree(root.left, low, high)

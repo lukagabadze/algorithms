@@ -9,8 +9,8 @@ NOTE: You can teach list comprehension here as well as a BONUS
 class Solution(object):
     def numIslands(self, grid):
         lands = []
-        for (i, row) in enumerate(grid):
-            for (j, _) in enumerate(row):
+        for i, row in enumerate(grid):
+            for j, _ in enumerate(row):
                 if grid[i][j] == "1":
                     lands.append((i, j))
 
@@ -23,7 +23,7 @@ class Solution(object):
         visited = set()
         answer = 0
 
-        for (i, j) in lands:
+        for i, j in lands:
             if (i, j) in visited:
                 continue
 
@@ -54,19 +54,19 @@ class Solution(object):
                 #     visited.add((x, y))
 
                 # Second method
-                if x - 1 >= 0 and grid[x - 1][y] == '1' and (x - 1, y) not in visited:
-                    queue += [(x-1, y)]
+                if x - 1 >= 0 and grid[x - 1][y] == "1" and (x - 1, y) not in visited:
+                    queue += [(x - 1, y)]
                     visited.add((x - 1, y))
 
-                if x + 1 < m and grid[x + 1][y] == '1' and (x + 1, y) not in visited:
+                if x + 1 < m and grid[x + 1][y] == "1" and (x + 1, y) not in visited:
                     queue += [(x + 1, y)]
                     visited.add((x + 1, y))
 
-                if y - 1 >= 0 and grid[x][y - 1] == '1' and (x, y - 1) not in visited:
+                if y - 1 >= 0 and grid[x][y - 1] == "1" and (x, y - 1) not in visited:
                     queue += [(x, y - 1)]
                     visited.add((x, y - 1))
 
-                if y + 1 < n and grid[x][y + 1] == '1' and (x, y + 1) not in visited:
+                if y + 1 < n and grid[x][y + 1] == "1" and (x, y + 1) not in visited:
                     queue += [(x, y + 1)]
                     visited.add((x, y + 1))
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         ["1", "1", "0", "0", "0"],
         ["1", "1", "0", "0", "0"],
         ["0", "0", "1", "0", "0"],
-        ["0", "0", "0", "1", "1"]
+        ["0", "0", "0", "1", "1"],
     ]
 
     print("grid:")

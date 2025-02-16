@@ -2,7 +2,6 @@ from utils import array_to_node_tree
 
 
 class Solution(object):
-
     def searchBST(self, root, val):
         if root is None:
             return None

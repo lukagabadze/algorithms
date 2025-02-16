@@ -20,7 +20,6 @@ def array_to_node_tree(arr):
 
     for i in range(n):
         if nodes[i] is not None:
-
             left = j + 1
             right = j + 2
             j += 2

@@ -2,7 +2,6 @@ from utils import array_to_node_tree
 
 
 class Solution(object):
-
     answer = 0
 
     def minCameraCover(self, root):

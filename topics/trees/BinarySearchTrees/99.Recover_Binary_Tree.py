@@ -21,7 +21,6 @@ and then swap the values there, I think it's easier to understand.
 Then as a bonus I can show how to do everything one single method.
 """
 
-
 from utils import TreeNode, array_to_node_tree
 
 
@@ -33,7 +32,6 @@ BUT, I think it's easier to understand for anyone wanting to learn
 
 
 class Solution(object):
-
     in_order_tree = []
 
     def recoverTree(self, root):
@@ -51,14 +49,23 @@ class Solution(object):
             if index is 0:
                 continue
 
-            if not first_anomaly_node and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val:
+            if (
+                not first_anomaly_node
+                and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val
+            ):
                 first_anomaly_node = self.in_order_tree[index - 1]
 
-            if first_anomaly_node and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val:
+            if (
+                first_anomaly_node
+                and self.in_order_tree[index - 1].val >= self.in_order_tree[index].val
+            ):
                 second_anomaly_node = self.in_order_tree[index]
 
         if first_anomaly_node and second_anomaly_node:
-            first_anomaly_node.val, second_anomaly_node.val = second_anomaly_node.val, first_anomaly_node.val
+            first_anomaly_node.val, second_anomaly_node.val = (
+                second_anomaly_node.val,
+                first_anomaly_node.val,
+            )
 
     def in_order_assemble(self, root):
         if root is None:

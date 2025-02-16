@@ -12,7 +12,6 @@ Steps:
 I am the GOAT
 """
 
-
 from utils import TreeNode, array_to_node_tree
 
 
@@ -24,7 +23,6 @@ I might be the GOAT
 
 
 class Solution(object):
-
     def balanceBST(self, root):
         in_order_tree = []
 
@@ -48,7 +46,6 @@ class Solution(object):
         return in_order_tree[len(in_order_tree) // 2]
 
     def balance(self, in_order_tree):
-
         if not in_order_tree:
             return
 
@@ -56,7 +53,7 @@ class Solution(object):
         center_node = in_order_tree[center_node_index]
 
         left_subtree = in_order_tree[:center_node_index]
-        right_subtree = in_order_tree[center_node_index + 1:]
+        right_subtree = in_order_tree[center_node_index + 1 :]
 
         if left_subtree:
             center_node.left = left_subtree[len(left_subtree) // 2]
@@ -73,8 +70,27 @@ if __name__ == "__main__":
 
     # tree = [3, 0, 4, None, 2, None, None, 1]
     # tree = [1,None,2,None,3,None,4]
-    tree = [1, None, 15, 14, 17, 7, None, None, None,
-            2, 12, None, 3, 9, None, None, None, None, 11]
+    tree = [
+        1,
+        None,
+        15,
+        14,
+        17,
+        7,
+        None,
+        None,
+        None,
+        2,
+        12,
+        None,
+        3,
+        9,
+        None,
+        None,
+        None,
+        None,
+        11,
+    ]
 
     # tree = [15, 2, 25, 1, 3, 14, 26]
     # val = 14

@@ -4,7 +4,6 @@ NOTE: There must be a FAR FAR better way to do this, with a cleaner code.
 CodingNinja has a great simple solution on leetcode: https://leetcode.com/problems/validate-binary-search-tree/solutions/5622933/video-check-range-of-each-node/
 """
 
-
 from utils import array_to_node_tree
 
 """
@@ -13,7 +12,6 @@ TIME: 2ms (Thanks to CodingNinja!)
 
 
 class Solution(object):
-
     def isValidBST(self, root):
         # The root of the binary search tree can be whatever it wants, from -infinity to +infinity
         return self.validate(root, float("-inf"), float("inf"))

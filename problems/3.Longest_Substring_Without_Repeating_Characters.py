@@ -1,7 +1,7 @@
 """
 This technique is called "sliding window"
 pretty fucking cool
-  
+
 Interesting fact:
 I had a count variable to count the possible answer and wrote "ans = max(ans, count)"
 but chatgpt told me it was unnecessary since the count could be counted any time using "i - char_map.get(char)"

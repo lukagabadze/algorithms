@@ -13,7 +13,6 @@ from binary_tree_class import traverse
 
 
 class Solution(object):
-
     def constructMaximumBinaryTree(self, nums):
         # if the array is empty
         if not nums:
@@ -26,7 +25,7 @@ class Solution(object):
         root = TreeNode(value)
 
         left_root = self.constructMaximumBinaryTree(nums[:index])
-        right_root = self.constructMaximumBinaryTree(nums[index+1:])
+        right_root = self.constructMaximumBinaryTree(nums[index + 1 :])
 
         root.left = left_root
         root.right = right_root

@@ -4,7 +4,6 @@ Cool findings:
 2) arr[-1] returns the last element
 """
 
-
 import time
 from tools import generate_large_list
 
@@ -17,7 +16,7 @@ def quick_sort(arr):
     final_pivot_ind = sort_by_pivot(arr, pivot_ind)
 
     left_part = quick_sort(arr[0:final_pivot_ind])
-    right_part = quick_sort(arr[final_pivot_ind + 1:])
+    right_part = quick_sort(arr[final_pivot_ind + 1 :])
 
     return left_part + [arr[final_pivot_ind]] + right_part
 
@@ -38,7 +37,7 @@ def sort_by_pivot(arr, pivot_ind):
     left_ind = 0
     right_ind = len(arr) - 2
 
-    while (left_ind <= right_ind):
+    while left_ind <= right_ind:
         if arr[left_ind] <= pivot:
             left_ind += 1
 
@@ -55,8 +54,7 @@ def sort_by_pivot(arr, pivot_ind):
     return left_ind
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     list_size = 50
     arr = generate_large_list(list_size)
 
@@ -70,13 +68,15 @@ if __name__ == '__main__':
     # print('pivot_ans_ind: ', sort_by_pivot(arr, 1))
     # print('arr: ', arr)
 
-    print('arr: ', arr)
+    print("arr: ", arr)
     print()
     start_time = time.time()
     sorted_arr = quick_sort(arr)
     end_time = time.time()
     print()
-    print('sorted_arr: ', sorted_arr)
+    print("sorted_arr: ", sorted_arr)
 
-    print(f"Time taken to sort a list of {list_size} elements: {
-          end_time - start_time:.6f} seconds")
+    print(
+        f"Time taken to sort a list of {list_size} elements: {
+          end_time - start_time:.6f} seconds"
+    )

@@ -20,7 +20,6 @@ It taught me AVL Trees which is great!
 
 
 class Solution(object):
-
     def balanceBST(self, root):
         nodes = self.bst_in_order_array(root, [])
 
@@ -56,8 +55,7 @@ class Solution(object):
         elif root.val < val:
             root.right = self.insert(root.right, val)
 
-        root.height = 1 + max(self.get_height(root.left),
-                              self.get_height(root.right))
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
         # balance factor
         bf = self.get_height(root.left) - self.get_height(root.right)
@@ -139,8 +137,27 @@ if __name__ == "__main__":
 
     # tree = [3, 0, 4, None, 2, None, None, 1]
     # tree = [1,None,2,None,3,None,4]
-    tree = [1, None, 15, 14, 17, 7, None, None, None,
-            2, 12, None, 3, 9, None, None, None, None, 11]
+    tree = [
+        1,
+        None,
+        15,
+        14,
+        17,
+        7,
+        None,
+        None,
+        None,
+        2,
+        12,
+        None,
+        3,
+        9,
+        None,
+        None,
+        None,
+        None,
+        11,
+    ]
     # tree = [15, 2, 25, 1, 3, 14, 26]
 
     # tree = [9, 2, 14, 1, 3, 11, 15, None, None, None, 7, None, 12, None, 17]

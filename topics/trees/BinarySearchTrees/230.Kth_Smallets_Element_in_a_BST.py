@@ -16,7 +16,6 @@ since k <= n, O(k) is better.
 
 
 class Solution(object):
-
     count = 0
 
     def kthSmallest(self, root, k):

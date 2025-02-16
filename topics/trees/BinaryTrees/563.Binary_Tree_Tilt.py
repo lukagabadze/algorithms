@@ -7,7 +7,6 @@ If a node does not have a left child, then the sum of the left subtree node valu
 The rule is similar if the node does not have a right child.
 """
 
-
 from utils import array_to_node_tree
 
 """
@@ -16,7 +15,6 @@ TIME: 7ms
 
 
 class Solution(object):
-
     def findTilt(self, root):
         (total_sum, answer) = self.recursive_tilt(root)
         return answer
@@ -30,7 +28,6 @@ class Solution(object):
   """
 
     def recursive_tilt(self, node):
-
         if node is None:
             return (0, 0)
 

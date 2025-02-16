@@ -4,12 +4,10 @@ I also have a solution with AVL Trees which is slow as a snail
 but it's good to study AVL Trees
 """
 
-
 from utils import TreeNode, array_to_node_tree
 
 
 class Solution(object):
-
     def insertIntoBST(self, root, val):
         if root is None:
             return TreeNode(val)

@@ -24,7 +24,11 @@ class Solution:
             ]
 
             for i, j in points_of_interest:
-                if (i >= 0 and j >= 0 and i < n and j < m) and image[i][j] == root_color and (i, j) not in visited:
+                if (
+                    (i >= 0 and j >= 0 and i < n and j < m)
+                    and image[i][j] == root_color
+                    and (i, j) not in visited
+                ):
                     queue.append((i, j))
                     visited.add((i, j))
 

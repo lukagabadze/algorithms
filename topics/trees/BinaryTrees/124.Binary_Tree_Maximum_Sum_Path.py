@@ -2,8 +2,7 @@ from utils import array_to_node_tree
 
 
 class Solution(object):
-
-    answer = float('-inf')
+    answer = float("-inf")
 
     def maxPathSum(self, root):
         self.find_max_subtrees(root)
@@ -16,8 +15,13 @@ class Solution(object):
         left_max = self.find_max_subtrees(root.left)
         right_max = self.find_max_subtrees(root.right)
 
-        self.answer = max(self.answer, root.val, root.val + left_max +
-                          right_max, root.val + left_max, root.val + right_max)
+        self.answer = max(
+            self.answer,
+            root.val,
+            root.val + left_max + right_max,
+            root.val + left_max,
+            root.val + right_max,
+        )
 
         return max(root.val, root.val + left_max, root.val + right_max)
 

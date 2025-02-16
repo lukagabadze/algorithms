@@ -3,7 +3,6 @@ Thanks to the GOAT Abhishek for the amazing solution!
 https://leetcode.com/problems/pacific-atlantic-water-flow/solutions/1126938/short-easy-w-explanation-diagrams-simple-graph-traversals-dfs-bfs/
 """
 
-
 from collections import deque
 
 """
@@ -30,9 +29,13 @@ class Solution(object):
                     (x, y - 1),
                 ]
                 filtered = [
-                    (k, f) for (k, f) in points_of_interest
+                    (k, f)
+                    for (k, f) in points_of_interest
                     if (k, f) not in visited
-                    and k >= 0 and k < m and f >= 0 and f < n
+                    and k >= 0
+                    and k < m
+                    and f >= 0
+                    and f < n
                     and heights[k][f] >= heights[x][y]
                 ]
 
@@ -41,13 +44,13 @@ class Solution(object):
             return visited
 
         # Pacific edges (range(1, n) to avoid putting (0, 0) twice)
-        queue = deque([(i, 0) for i in range(m)] + [(0, i)
-                      for i in range(1, n)])
+        queue = deque([(i, 0) for i in range(m)] + [(0, i) for i in range(1, n)])
         pacific_visited = travel(queue)
 
         # Atlantic edges (range(n-1) to avoid putting (m, n) twice)
-        queue = deque([(i, n - 1) for i in range(m)] + [(m - 1, i)
-                      for i in range(n - 1)])
+        queue = deque(
+            [(i, n - 1) for i in range(m)] + [(m - 1, i) for i in range(n - 1)]
+        )
         atlantic_visited = travel(queue)
 
         # Answers are points which were covered in poth pacific and atlantic BFS travels
@@ -59,8 +62,13 @@ class Solution(object):
 if __name__ == "__main__":
     solution = Solution()
 
-    heights = [[1, 2, 2, 3, 5], [3, 2, 3, 4, 4], [
-        2, 4, 5, 3, 1], [6, 7, 1, 4, 5], [5, 1, 1, 2, 4]]
+    heights = [
+        [1, 2, 2, 3, 5],
+        [3, 2, 3, 4, 4],
+        [2, 4, 5, 3, 1],
+        [6, 7, 1, 4, 5],
+        [5, 1, 1, 2, 4],
+    ]
 
     # heights = [[2,1],[1,2]]
 

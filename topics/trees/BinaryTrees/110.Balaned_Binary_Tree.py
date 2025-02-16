@@ -28,9 +28,7 @@ def find_tree_balance(root):
     (left_balanced, left_depth) = find_tree_balance(root.left)
     (right_balanced, right_depth) = find_tree_balance(root.right)
 
-    balanced = (
-        left_balanced and right_balanced and abs(left_depth - right_depth) <= 1
-    )
+    balanced = left_balanced and right_balanced and abs(left_depth - right_depth) <= 1
     depth = 1 + max(left_depth, right_depth)
 
     # Otherwise, the tree is balanced
@@ -59,7 +57,6 @@ TIME: 11ms
 
 class SolutionSlow(object):
     def isBalanced(self, root):
-
         if root is None:
             return True
 
@@ -69,7 +66,9 @@ class SolutionSlow(object):
         difference = abs(left_depth - right_depth)
         is_balanced = difference <= 1
 
-        return is_balanced and self.isBalanced(root.left) and self.isBalanced(root.right)
+        return (
+            is_balanced and self.isBalanced(root.left) and self.isBalanced(root.right)
+        )
 
 
 if __name__ == "__main__":

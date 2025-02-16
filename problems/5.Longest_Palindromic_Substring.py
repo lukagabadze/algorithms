@@ -20,7 +20,11 @@ class Solution(object):
 
         def expand(ind):
             size = 1
-            while (ind - size >= 0 and ind + size < len(s) and s[ind - size] == s[ind + size]):
+            while (
+                ind - size >= 0
+                and ind + size < len(s)
+                and s[ind - size] == s[ind + size]
+            ):
                 size += 1
 
             return size * 2 - 1
@@ -44,7 +48,9 @@ class Solution(object):
             elif i + known_size < center_ind + answers[center_ind] // 2:
                 size = known_size
             # Prefix Goes Out
-            elif known_size_ind - known_size // 2 < center_ind - answers[center_ind] // 2:
+            elif (
+                known_size_ind - known_size // 2 < center_ind - answers[center_ind] // 2
+            ):
                 size = 1
             else:
                 size = expand(i)
@@ -61,7 +67,7 @@ class Solution(object):
             answers.append(size)
             i += 1
 
-        return s[final_ans[0]:final_ans[1]].replace("#", "")
+        return s[final_ans[0] : final_ans[1]].replace("#", "")
 
 
 if __name__ == "__main__":

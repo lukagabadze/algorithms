@@ -1,4 +1,3 @@
-
 """
 Given the root of a binary tree, construct a 0-indexed m x n string matrix res that represents a formatted layout of the tree. The formatted layout matrix should be constructed using the following rules:
 
@@ -25,7 +24,6 @@ from utils import array_to_node_tree
 
 
 class Solution(object):
-
     answer = []
     height = 0
     m = 0

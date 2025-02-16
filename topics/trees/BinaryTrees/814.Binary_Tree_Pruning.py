@@ -8,7 +8,6 @@ from binary_tree_class import traverse
 
 
 class Solution(object):
-
     """
     This method returns a boolean value.
     If the subtree includes a 1 it returns True, otherwise False
@@ -36,9 +35,7 @@ class Solution(object):
         if right_tree_result is False:
             node.right = None
 
-        final_result = (
-            left_tree_result or right_tree_result or node.val == 1
-        )
+        final_result = left_tree_result or right_tree_result or node.val == 1
 
         return final_result
 

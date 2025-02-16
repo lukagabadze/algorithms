@@ -3,7 +3,6 @@ This is a relatively easy task, just assemble the in-order traversal tree array 
 and just answer the queries in O(1) time
 """
 
-
 from utils import TreeNode, array_to_node_tree
 
 """
@@ -12,7 +11,6 @@ TIME: 11ms
 
 
 class BSTIterator(object):
-
     in_order_tree = []
     ind = 0
 
@@ -46,12 +44,12 @@ if __name__ == "__main__":
     root = array_to_node_tree(tree)
 
     bSTIterator = BSTIterator(root)
-    bSTIterator.next()    # return 3
-    bSTIterator.next()    # return 7
+    bSTIterator.next()  # return 3
+    bSTIterator.next()  # return 7
     bSTIterator.hasNext()  # return True
-    bSTIterator.next()    # return 9
+    bSTIterator.next()  # return 9
     bSTIterator.hasNext()  # return True
-    bSTIterator.next()    # return 15
+    bSTIterator.next()  # return 15
     bSTIterator.hasNext()  # return True
-    bSTIterator.next()    # return 20
+    bSTIterator.next()  # return 20
     bSTIterator.hasNext()  # return False

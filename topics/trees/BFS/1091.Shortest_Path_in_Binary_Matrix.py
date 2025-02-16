@@ -3,7 +3,7 @@ class Solution:
         n = len(grid)
 
         # Base case
-        if grid[0][0] == 1 or grid[n-1][n-1] == 1:
+        if grid[0][0] == 1 or grid[n - 1][n - 1] == 1:
             return -1
 
         queue = [(0, 0, 1)]
@@ -29,7 +29,11 @@ class Solution:
             ]
 
             for x, y in points_of_interest:
-                if (x >= 0 and y >= 0 and x < n and y < n) and (x, y) not in visited and grid[x][y] == 0:
+                if (
+                    (x >= 0 and y >= 0 and x < n and y < n)
+                    and (x, y) not in visited
+                    and grid[x][y] == 0
+                ):
                     queue.append((x, y, ans + 1))
                     visited.add((x, y))
 

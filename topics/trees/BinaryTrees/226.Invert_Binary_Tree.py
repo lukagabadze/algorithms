@@ -7,7 +7,6 @@ from binary_tree_class import traverse
 
 
 class Solution(object):
-
     def invertTree(self, root):
         if root is None:
             return root

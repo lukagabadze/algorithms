@@ -9,7 +9,6 @@ This file is gonna show the array implementation
 which is what's used in coding problems everywhere
 """
 
-
 # binary tree stored as a list
 # for a node at index i, left child = 2*i + 1, right child = 2*i + 2
 binary_tree = [10, 3, 5, 2, 9, 11, 23]

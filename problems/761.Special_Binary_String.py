@@ -12,11 +12,12 @@ class Solution(object):
         i = 0
         count = 0
         special_maximized_subs = []
-        for (j, c) in enumerate(s):
-            count = count + 1 if c == '1' else count - 1
+        for j, c in enumerate(s):
+            count = count + 1 if c == "1" else count - 1
             if count == 0:
                 special_maximized_subs.append(
-                    '1' + self.makeLargestSpecial(s[i+1:j]) + '0')
+                    "1" + self.makeLargestSpecial(s[i + 1 : j]) + "0"
+                )
                 i = j + 1
 
         return "".join(reversed(sorted(special_maximized_subs)))

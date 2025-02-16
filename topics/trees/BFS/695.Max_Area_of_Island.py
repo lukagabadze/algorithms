@@ -1,8 +1,8 @@
 class Solution(object):
     def maxAreaOfIsland(self, grid):
         lands = []
-        for (i, row) in enumerate(grid):
-            for (j, _) in enumerate(row):
+        for i, row in enumerate(grid):
+            for j, _ in enumerate(row):
                 if grid[i][j] == 1:
                     lands.append((i, j))
 
@@ -15,8 +15,7 @@ class Solution(object):
         visited = set()
         answer = 0
 
-        for (i, j) in lands:
-
+        for i, j in lands:
             if (i, j) in visited:
                 continue
 
@@ -34,7 +33,11 @@ class Solution(object):
                 ]
 
                 for x, y in points_of_interest:
-                    if (x >= 0 and x < m and y >= 0 and y < n) and (x, y) not in visited and grid[x][y] == 1:
+                    if (
+                        (x >= 0 and x < m and y >= 0 and y < n)
+                        and (x, y) not in visited
+                        and grid[x][y] == 1
+                    ):
                         queue.append((x, y))
                         visited.add((x, y))
                         ans += 1
@@ -55,7 +58,7 @@ if __name__ == "__main__":
         [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
     ]
 
     # grid = [
