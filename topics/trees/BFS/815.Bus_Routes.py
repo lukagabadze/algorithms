@@ -2,8 +2,10 @@ from collections import deque
 
 
 """
-TIME: 820ms (Beats 41.96%)
-TODO: This can be improved, look into it
+TIME: 91ms (Beats 84.14%)
+NOTE: Much better than my previous method which only kept track of visited lines.
+This time, I have visited_stops and visited_lines sets which help me avoid useless routes.
+Also, I kept line indexes in the queue, now I keep stops.
 """
 
 
@@ -26,36 +28,40 @@ class Solution:
 
         lines = bus_stop_map[source]
 
-        queue = deque([(line, 1) for line in lines])
-        visited = set(lines)
-        answer = -1
+        queue = deque([(source, 0)])
+        visited_stops = set([source])
+        visited_lines = set()
         while queue:
-            (line, ans) = queue.popleft()
+            (stop, ans) = queue.popleft()
 
-            stops = routes[line]
+            lines = bus_stop_map[stop]
 
-            if target in stops:
-                return ans
+            for line in lines:
+                if line in visited_lines:
+                    continue
 
-            for stop in stops:
-                for stop_line in bus_stop_map[stop]:
-                    if stop_line not in visited:
-                        queue.append((stop_line, ans + 1))
-                        visited.add(stop_line)
+                visited_lines.add(line)
+                stops = routes[line]
+                for stop in stops:
+                    if stop == target:
+                        return ans + 1
+                    if stop not in visited_stops:
+                        queue.append((stop, ans + 1))
+                        visited_stops.add(stop)
 
-        return answer
+        return -1
 
 
 if __name__ == "__main__":
     solution = Solution()
 
-    # routes = [[1, 2, 7], [3, 6, 7]]
-    # source = 1
-    # target = 6
+    routes = [[1, 2, 7], [3, 6, 7]]
+    source = 1
+    target = 6
 
-    routes = [[7, 12], [4, 5, 15], [6], [15, 19], [9, 12, 13]]
-    source = 15
-    target = 12
+    # routes = [[7, 12], [4, 5, 15], [6], [15, 19], [9, 12, 13]]
+    # source = 15
+    # target = 12
 
     # routes = [[2], [2, 8]]
     # source = 8
