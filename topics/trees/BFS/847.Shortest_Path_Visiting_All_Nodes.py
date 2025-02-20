@@ -8,6 +8,11 @@ There are three reasons why we should check out the next node (append to the que
 3) The node has other unvisited nodes to offer us `len(set(graph[next_node]) - visited_nodes) > 0`
 
 TODO: Fix this shit
+
+NOTE: This was my last desperate attempt at solving this problem.
+I followed the instructions above, but instead of just looking at what a node had to offer,
+I had to keep track of nodes I did not take and put them into possible_nodes.
+This gets the right answer but it's still slow as SHIT, time limit exceeded :(
 """
 
 from collections import deque
@@ -24,21 +29,28 @@ class Solution:
 
         answer = float("+inf")
         for i in range(len(graph)):
-            queue = deque([(i, set(), set([i]))])
+            queue = deque([(i, set(), set([i]), set())])
             found = False
             while queue:
-                (node, visited_paths, visited_nodes) = queue.popleft()
+                (node, visited_paths, visited_nodes, possible_nodes) = queue.popleft()
 
                 if found:
                     break
 
                 for next_node in graph[node]:
-                    if (node, next_node) not in visited_paths:
+                    if (node, next_node) not in visited_paths and (
+                        next_node not in visited_nodes
+                        or len(possible_nodes - visited_nodes) > 0
+                    ):
                         next_node_visited_paths = visited_paths.copy()
                         next_node_visited_paths.add((node, next_node))
 
                         next_node_visited_nodes = visited_nodes.copy()
                         next_node_visited_nodes.add(next_node)
+
+                        next_node_possible_nodes = possible_nodes | (
+                            set(graph[node]) - set([next_node])
+                        )
 
                         if len(next_node_visited_nodes) == n:
                             answer = min(answer, len(next_node_visited_paths))
@@ -49,6 +61,7 @@ class Solution:
                                 next_node,
                                 next_node_visited_paths,
                                 next_node_visited_nodes,
+                                next_node_possible_nodes,
                             )
                         )
 
@@ -79,7 +92,8 @@ if __name__ == "__main__":
 
     # graph = [[2, 3], [7], [0, 6], [0, 4, 7], [3, 8], [7], [2], [5, 3, 1], [4]]
 
-    for row in graph:
+    for i, row in enumerate(graph):
+        print(i, end=": ")
         print(" ".join(map(str, row)))
     print("\n")
     answer = solution.shortestPathLength(graph)
