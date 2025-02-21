@@ -28,28 +28,35 @@ class Solution:
         n = len(graph)
 
         answer = float("+inf")
+        visited = set()
         for i in range(len(graph)):
-            queue = deque([(i, set(), set([i]), set())])
+            queue = deque([(i, set(), set([i]))])
+            visited.add((i, f"{i}", 0))
             found = False
             while queue:
-                (node, visited_paths, visited_nodes, possible_nodes) = queue.popleft()
+                (node, visited_paths, visited_nodes) = queue.popleft()
 
                 if found:
                     break
 
                 for next_node in graph[node]:
-                    if (node, next_node) not in visited_paths and (
-                        next_node not in visited_nodes
-                        or len(possible_nodes - visited_nodes) > 0
-                    ):
+                    if (
+                        next_node,
+                        "-".join(map(str, sorted(visited_nodes))),
+                        len(visited_paths),
+                    ) not in visited:
                         next_node_visited_paths = visited_paths.copy()
                         next_node_visited_paths.add((node, next_node))
 
                         next_node_visited_nodes = visited_nodes.copy()
                         next_node_visited_nodes.add(next_node)
 
-                        next_node_possible_nodes = possible_nodes | (
-                            set(graph[node]) - set([next_node])
+                        visited.add(
+                            (
+                                node,
+                                "-".join(map(str, sorted(visited_nodes))),
+                                len(visited_paths),
+                            )
                         )
 
                         if len(next_node_visited_nodes) == n:
@@ -61,7 +68,6 @@ class Solution:
                                 next_node,
                                 next_node_visited_paths,
                                 next_node_visited_nodes,
-                                next_node_possible_nodes,
                             )
                         )
 
@@ -75,22 +81,22 @@ if __name__ == "__main__":
 
     # graph = [[1], [0, 2, 4], [1, 3, 4], [2], [1, 2]]
 
-    graph = [
-        [2, 10],
-        [2, 7],
-        [0, 1, 3, 4, 5, 8],
-        [2],
-        [2],
-        [2],
-        [8],
-        [9, 11, 8, 1],
-        [7, 6, 2],
-        [7],
-        [11, 0],
-        [7, 10],
-    ]
+    # graph = [
+    #     [2, 10],
+    #     [2, 7],
+    #     [0, 1, 3, 4, 5, 8],
+    #     [2],
+    #     [2],
+    #     [2],
+    #     [8],
+    #     [9, 11, 8, 1],
+    #     [7, 6, 2],
+    #     [7],
+    #     [11, 0],
+    #     [7, 10],
+    # ]
 
-    # graph = [[2, 3], [7], [0, 6], [0, 4, 7], [3, 8], [7], [2], [5, 3, 1], [4]]
+    graph = [[2, 3], [7], [0, 6], [0, 4, 7], [3, 8], [7], [2], [5, 3, 1], [4]]
 
     for i, row in enumerate(graph):
         print(i, end=": ")
