@@ -13,6 +13,12 @@ NOTE: This was my last desperate attempt at solving this problem.
 I followed the instructions above, but instead of just looking at what a node had to offer,
 I had to keep track of nodes I did not take and put them into possible_nodes.
 This gets the right answer but it's still slow as SHIT, time limit exceeded :(
+
+NOTE: Little intuition
+going from each node one by one, is kinda like DFS, when this solution requires BFS.
+It would be better to fill the queue with initial notes first and the virst one to visit all nodes wins.
+Thank you to the GOAT Panda for the solution: https://leetcode.com/problems/shortest-path-visiting-all-nodes/solutions/135809/fast-bfs-solution-46ms-clear-detailed-explanation-included/
+Glad I understand this problem now.
 """
 
 from collections import deque
@@ -29,47 +35,42 @@ class Solution:
 
         answer = float("+inf")
         visited = set()
+        queue = deque()
         for i in range(len(graph)):
-            queue = deque([(i, set(), set([i]))])
-            visited.add((i, f"{i}", 0))
-            found = False
-            while queue:
-                (node, visited_paths, visited_nodes) = queue.popleft()
+            queue.append((i, set(), set([i])))
+            visited.add((i, f"{i}"))
 
-                if found:
-                    break
+        found = False
+        while queue:
+            (node, visited_paths, visited_nodes) = queue.popleft()
 
-                for next_node in graph[node]:
-                    if (
-                        next_node,
-                        "-".join(map(str, sorted(visited_nodes))),
-                        len(visited_paths),
-                    ) not in visited:
-                        next_node_visited_paths = visited_paths.copy()
-                        next_node_visited_paths.add((node, next_node))
+            if found:
+                break
 
-                        next_node_visited_nodes = visited_nodes.copy()
-                        next_node_visited_nodes.add(next_node)
+            for next_node in graph[node]:
+                if (
+                    next_node,
+                    "-".join(map(str, sorted(visited_nodes))),
+                ) not in visited:
+                    next_node_visited_paths = visited_paths.copy()
+                    next_node_visited_paths.add((node, next_node))
 
-                        visited.add(
-                            (
-                                node,
-                                "-".join(map(str, sorted(visited_nodes))),
-                                len(visited_paths),
-                            )
+                    next_node_visited_nodes = visited_nodes.copy()
+                    next_node_visited_nodes.add(next_node)
+
+                    visited.add((node, "-".join(map(str, sorted(visited_nodes)))))
+
+                    if len(next_node_visited_nodes) == n:
+                        answer = min(answer, len(next_node_visited_paths))
+                        found = True
+
+                    queue.append(
+                        (
+                            next_node,
+                            next_node_visited_paths,
+                            next_node_visited_nodes,
                         )
-
-                        if len(next_node_visited_nodes) == n:
-                            answer = min(answer, len(next_node_visited_paths))
-                            found = True
-
-                        queue.append(
-                            (
-                                next_node,
-                                next_node_visited_paths,
-                                next_node_visited_nodes,
-                            )
-                        )
+                    )
 
         return answer
 
@@ -81,22 +82,24 @@ if __name__ == "__main__":
 
     # graph = [[1], [0, 2, 4], [1, 3, 4], [2], [1, 2]]
 
-    # graph = [
-    #     [2, 10],
-    #     [2, 7],
-    #     [0, 1, 3, 4, 5, 8],
-    #     [2],
-    #     [2],
-    #     [2],
-    #     [8],
-    #     [9, 11, 8, 1],
-    #     [7, 6, 2],
-    #     [7],
-    #     [11, 0],
-    #     [7, 10],
-    # ]
+    graph = [
+        [2, 10],
+        [2, 7],
+        [0, 1, 3, 4, 5, 8],
+        [2],
+        [2],
+        [2],
+        [8],
+        [9, 11, 8, 1],
+        [7, 6, 2],
+        [7],
+        [11, 0],
+        [7, 10],
+    ]
 
-    graph = [[2, 3], [7], [0, 6], [0, 4, 7], [3, 8], [7], [2], [5, 3, 1], [4]]
+    # graph = [[2, 3], [7], [0, 6], [0, 4, 7], [3, 8], [7], [2], [5, 3, 1], [4]]
+
+    # graph = [[1], [0, 2, 4], [1, 3], [2], [1, 5], [4]]
 
     for i, row in enumerate(graph):
         print(i, end=": ")
