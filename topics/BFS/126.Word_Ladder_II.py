@@ -6,23 +6,25 @@ import string
 """
 NOTE: This is the initial try, it gets time limit exceeded, im not very good yet.
 I also tried bitmasks which was seriously stupid since 2^500 is a large number :) (This one got memory limit exceeded... i am truly special)
+
+NOTE: I peeked into the solutions tab and found one solution which mentioned depthMap,
+so I switched back to the editor immediately and wrote a depth_map solution,
+I still get TLE, but on the 53rd case (there are 57 in total).
+So it is better, but still not good enough.
 """
 
 
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        wordList = [beginWord] + wordList
         wordList = set(wordList)
 
-        word_ind_map = {}
-        for i, word in enumerate(wordList):
-            word_ind_map[word] = i
-
+        cnt = 0
         answer = []
-        queue = deque([(beginWord, [beginWord], {beginWord})])
-        visited = set()
+        queue = deque([(beginWord, [beginWord])])
+        depth_map = {word: float("inf") for word in wordList}
+        depth_map[beginWord] = 1
         while queue:
-            (word, path, visited_words) = queue.popleft()
+            (word, path) = queue.popleft()
 
             if word == endWord:
                 if not answer:
@@ -35,22 +37,14 @@ class Solution:
             for i in range(len(word)):
                 for c in string.ascii_lowercase:
                     new_word = word[:i] + c + word[i + 1 :]
-                    if new_word not in word_ind_map:
+
+                    if new_word not in wordList:
                         continue
 
-                    new_path = path + [new_word]
-                    new_path_str = "-".join(new_path)
-
-                    if (
-                        new_word in wordList
-                        and new_word not in visited_words
-                        and new_path_str not in visited
-                    ):
-                        new_visited_words = visited_words.copy()
-                        new_visited_words.add(new_word)
-
-                        queue.append((new_word, path + [new_word], new_visited_words))
-                        visited.add(new_path_str)
+                    if len(path) + 1 <= depth_map[new_word]:
+                        queue.append((new_word, path + [new_word]))
+                        depth_map[new_word] = len(path) + 1
+                        cnt += 1
 
         return answer
 
