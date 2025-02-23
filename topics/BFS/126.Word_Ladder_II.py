@@ -19,10 +19,10 @@ class Solution:
             word_ind_map[word] = i
 
         answer = []
-        queue = deque([(beginWord, [beginWord])])
-        visited = set(beginWord)
+        queue = deque([(beginWord, [beginWord], {beginWord})])
+        visited = set()
         while queue:
-            (word, path) = queue.popleft()
+            (word, path, visited_words) = queue.popleft()
 
             if word == endWord:
                 if not answer:
@@ -38,9 +38,19 @@ class Solution:
                     if new_word not in word_ind_map:
                         continue
 
-                    if new_word in wordList and new_word not in visited:
-                        queue.append((new_word, path + [new_word]))
-                        visited.add(new_word)
+                    new_path = path + [new_word]
+                    new_path_str = "-".join(new_path)
+
+                    if (
+                        new_word in wordList
+                        and new_word not in visited_words
+                        and new_path_str not in visited
+                    ):
+                        new_visited_words = visited_words.copy()
+                        new_visited_words.add(new_word)
+
+                        queue.append((new_word, path + [new_word], new_visited_words))
+                        visited.add(new_path_str)
 
         return answer
 
