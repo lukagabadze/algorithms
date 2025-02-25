@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, defaultdict
 from typing import List
 import string
 
@@ -16,6 +16,19 @@ NOTE: I have now improved the time limit complexity significantly by keeping the
 You can read what they are for in the comments below.
 But the solution is still not complete, I am getting MLE since I am storing all shortest paths for every word in the answers matrix.
 If I can fix that, I am confident this will be a successful submission!
+
+NOTE: defaultdict is pretty cool.
+It initializes the dictionary with default values. `defaultdict(list)` will have an empty array for every unassigned key.
+You can also put lambda in it, `defaultdict(lambda: float("inf"))` here, every uninitialized key will have a float("inf") value.
+
+NOTE: I finally got the code accepteeeddd no TLE or MLE 😭😭😭😭😭😭.
+Last issue I had was MLE, because I was storing every shortest path for every word in a matrix called answers.
+Instead of doing that, you can create a parents dictionary which will hold set of parent words for every word.
+Then you can use a simple backtrack function to assemble the arrays.
+Thank you to ChatGPT for helping me out on this one.
+
+NOTE: There is a way to speed this up using Bidirectional BFS but I think that would be a topic for another day.
+TODO: Implement Bidirectional BFS.
 """
 
 
@@ -26,16 +39,12 @@ class Solution:
         # Queue holds the word we are currently on and the steps it took to reach it.
         queue = deque([(beginWord, 1)])
 
-        # answers matrix holds minimum path arrays for every word.
-        # answers[word] is an array with all the possible shortest ways you can reach word from beginWord.
-        answers = {word: [] for word in wordList}
-        answers[beginWord] = [[beginWord]]
-        answers[endWord] = []
+        parents = defaultdict(set)
 
         # depth_map dictionary holds how many steps it takes to reach a certain word
         # before appending a word to the queue you can check if he have already reached this word in less steps.
         # depth_map[word] holds a number indicating shortest amount of steps it takes to reach that word.
-        depth_map = {word: float("inf") for word in wordList}
+        depth_map = defaultdict(lambda: float("inf"))
         depth_map[beginWord] = 1
         depth_map[endWord] = float("inf")
 
@@ -60,14 +69,24 @@ class Solution:
 
                     if steps + 1 <= depth_map[new_word]:
                         queue.append((new_word, steps + 1))
-                        answers[new_word].extend(
-                            path + [new_word] for path in answers[word]
-                        )
+                        parents[new_word].add(word)
                         depth_map[new_word] = steps + 1
 
             visited.add(word)
 
-        return answers[endWord]
+        answers = []
+
+        def backtrack(path, word):
+            if word == beginWord:
+                answers.append(path)
+                return
+
+            for parent in parents[word]:
+                backtrack([parent] + path, parent)
+
+        backtrack([endWord], endWord)
+
+        return answers
 
 
 if __name__ == "__main__":
