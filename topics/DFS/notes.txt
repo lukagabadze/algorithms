@@ -1,1 +1,3 @@
 "1372. Longest ZigZag Path in a Binary Tree" is a really really good DFS problem!
+Maybe not... turns out DFS and BFS have the same result in this problem (slightly better if you use BFS actually).
+BUT, you can still teach DFS using this problem, why not, you can use a stack and keep on popping until you zigzag your way through the tree.
