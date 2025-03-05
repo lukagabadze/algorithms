@@ -1,10 +1,16 @@
-from collections import deque
 from typing import List
 
 
 """
 Initial Time: 5367ms (Beats 24.04%)
 I can do better!
+
+Second Attempt Time: 3669ms (Beats 70.61%)
+Huge thanks to the GOAT firdavs for the solution (https://leetcode.com/problems/word-search/solutions/4965052/96-45-easy-solution-with-explanation)
+
+NOTE: Looks like recursive dfs performs way better here than the stack dfs.
+This might be due to having a visited set in each step of the stack,
+while here, you just unassign the point and assign it back after checking all neighbours.
 """
 
 
@@ -13,36 +19,45 @@ class Solution:
         m = len(board)
         n = len(board[0])
 
-        for initial_i in range(m):
-            for initial_j in range(n):
-                if board[initial_i][initial_j] != word[0]:
+        def dfs(i: int, j: int, word_ind: int) -> bool:
+            if word_ind == len(word) - 1:
+                return True
+
+            tmp = board[i][j]
+            board[i][j] = ""
+
+            points_of_interest = [
+                (i + 1, j),
+                (i - 1, j),
+                (i, j + 1),
+                (i, j - 1),
+            ]
+            results = []
+            for x, y in points_of_interest:
+                if (
+                    x >= 0
+                    and y >= 0
+                    and x < m
+                    and y < n
+                    and board[x][y] == word[word_ind + 1]
+                ):
+                    results.append(dfs(x, y, word_ind + 1))
+
+            board[i][j] = tmp
+
+            if True in results:
+                return True
+            else:
+                return False
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] != word[0]:
                     continue
 
-                stack = deque(
-                    [(initial_i, initial_j, 0, set([(initial_i, initial_j)]))]
-                )
-                while stack:
-                    (i, j, word_ind, visited) = stack.pop()
-
-                    if word_ind == len(word) - 1:
-                        return True
-
-                    points_of_interest = [
-                        (i + 1, j),
-                        (i - 1, j),
-                        (i, j + 1),
-                        (i, j - 1),
-                    ]
-                    for x, y in points_of_interest:
-                        if (
-                            (x >= 0 and y >= 0 and x < m and y < n)
-                            and ((x, y) not in visited)
-                            and (board[x][y] == word[word_ind + 1])
-                        ):
-                            new_visited = visited.copy()
-                            new_visited.add((x, y))
-
-                            stack.append((x, y, word_ind + 1, new_visited))
+                result = dfs(i, j, 0)
+                if result is True:
+                    return True
 
         return False
 
