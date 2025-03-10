@@ -5,6 +5,9 @@ from functools import cache
 """
 TIME: 3ms (Beats 10.77%)
 Could be improved probably
+
+NOTE: Yes, it can be VERY much improved by using dynamic programming,
+but I used DFS just to learn DFS, I will solve it later using dynamic programming in the DP folder.
 """
 
 
