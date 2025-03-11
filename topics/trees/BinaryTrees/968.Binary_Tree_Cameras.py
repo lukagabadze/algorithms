@@ -13,8 +13,7 @@ class Solution(object):
 
         return self.answer
 
-    # traverses the tree with post-order traversal
-    # and calculates the tree
+    # traverses the tree with post-order traversal and calculate the tree.
     # Returns a tuple if Booleans (camera_placed, is_covered)
     def traverse(self, root):
         if root is None:
