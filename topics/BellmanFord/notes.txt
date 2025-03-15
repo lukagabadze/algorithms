@@ -1,0 +1,3 @@
+"1514 Path with Maximum Probability" is a problem that can be solved with Bellman Ford's algorithm.
+I solved it with Dijsktra and it passed, but the solution was very slow.
+I read in the solutions tab that bellman ford algo beats 100% here.

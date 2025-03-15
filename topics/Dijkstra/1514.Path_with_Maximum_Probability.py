@@ -26,7 +26,8 @@ TIME: 215ms (Beats 9.81%)
 NOTE: Maybe this problem does NOT require Dijkstra's algorithm.
 Why is it this slow?
 
-TODO: Look into it.
+NOTE: Looks like this problem is supposed to be solved
+with Bellman Ford's algorithm for maximum performance.
 """
 
 
