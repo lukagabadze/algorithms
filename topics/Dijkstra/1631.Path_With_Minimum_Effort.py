@@ -11,6 +11,9 @@ from heapq import heappop, heappush
 """
 TIME: 734ms (Beats 22.76%)
 NOTE: Can be improved!
+
+TIME: 554ms (Beats 28.61%)
+NOTE: Exitting early while finding the answer for the target seems to speed things up, but not quite enough.
 """
 
 
@@ -24,6 +27,9 @@ class Solution(object):
         efforts = defaultdict(int)
         while heap:
             (effort, (i, j)) = heappop(heap)
+
+            if i == m - 1 and j == n - 1:
+                return effort
 
             if (i, j) in efforts:
                 continue
@@ -43,8 +49,6 @@ class Solution(object):
                         abs(heights[x][y] - heights[i][j]),
                     )
                     heappush(heap, (new_effort, (x, y)))
-
-        return efforts[(m - 1, n - 1)]
 
 
 if __name__ == "__main__":
