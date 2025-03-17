@@ -14,6 +14,11 @@ NOTE: Can be improved!
 
 TIME: 554ms (Beats 28.61%)
 NOTE: Exitting early while finding the answer for the target seems to speed things up, but not quite enough.
+
+TIME: 401ms (Beats 43.66%)
+NOTE: I moved the efforts logic into the directions loop and it seems to have speed up the solution, BUT HOW THO???
+
+NOTE: This was kinda the case in 1514 as well, where moving the logic inside the directions loop solved my problems.
 """
 
 
@@ -21,34 +26,29 @@ class Solution(object):
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
         m = len(heights)
         n = len(heights[0])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
         # Heap containing (effort, (row, col))
         heap = [(0, (0, 0))]
-        efforts = defaultdict(int)
+        efforts = defaultdict(lambda: float("inf"))
         while heap:
             (effort, (i, j)) = heappop(heap)
 
             if i == m - 1 and j == n - 1:
                 return effort
 
-            if (i, j) in efforts:
-                continue
-
-            efforts[(i, j)] = effort
-
-            points_of_interest = [
-                (i + 1, j),
-                (i - 1, j),
-                (i, j + 1),
-                (i, j - 1),
-            ]
-            for x, y in points_of_interest:
+            for dx, dy in directions:
+                x = i + dx
+                y = j + dy
                 if x >= 0 and y >= 0 and x < m and y < n:
                     new_effort = max(
                         effort,
                         abs(heights[x][y] - heights[i][j]),
                     )
-                    heappush(heap, (new_effort, (x, y)))
+
+                    if new_effort < efforts[(x, y)]:
+                        efforts[(x, y)] = new_effort
+                        heappush(heap, (new_effort, (x, y)))
 
 
 if __name__ == "__main__":
