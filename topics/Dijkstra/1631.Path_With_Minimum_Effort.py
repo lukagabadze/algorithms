@@ -19,13 +19,26 @@ TIME: 401ms (Beats 43.66%)
 NOTE: I moved the efforts logic into the directions loop and it seems to have speed up the solution, BUT HOW THO???
 
 NOTE: This was kinda the case in 1514 as well, where moving the logic inside the directions loop solved my problems.
+
+NOTE: Cool python syntax:
+        m = len(heights)
+        n = len(heights[0])
+
+This can be changed into:
+        m, n = len(heights), len(heights[0])
+
+And this:
+        x = i + dx
+        y = j + dy
+
+into:
+        x, y = i + dx, j + dy
 """
 
 
 class Solution(object):
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
-        m = len(heights)
-        n = len(heights[0])
+        m, n = len(heights), len(heights[0])
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
         # Heap containing (effort, (row, col))
@@ -38,8 +51,7 @@ class Solution(object):
                 return effort
 
             for dx, dy in directions:
-                x = i + dx
-                y = j + dy
+                x, y = i + dx, j + dy
                 if x >= 0 and y >= 0 and x < m and y < n:
                     new_effort = max(
                         effort,
