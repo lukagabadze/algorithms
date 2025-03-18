@@ -1,5 +1,10 @@
 """
 NOTE: DAAAAMNN I Solved this in 12 fucking minutes! I am becoming the fucking GOAT!
+
+NOTE: I can't believe I got this far in two months, practicing every day really does add up over time.
+Two months ago, I would not even try solving this problem since the label on leetcode said 'HARD'.
+One month ago, I would try it and waste hours on it and then check the solutions tab.
+But now, I can just code this simple Dijkstra solution in 12 minutes and submit it successfuly on the first try! 🐐🐐🐐
 """
 
 from typing import List
