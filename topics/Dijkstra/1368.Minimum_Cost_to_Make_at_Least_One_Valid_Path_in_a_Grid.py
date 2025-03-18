@@ -45,11 +45,11 @@ if __name__ == "__main__":
         [[1, 2], [4, 3]],
     ]
 
-    for heights in q:
-        for row in heights:
+    for grid in q:
+        for row in grid:
             print(row)
         print()
-        answer = solution.minCost(heights)
+        answer = solution.minCost(grid)
         print("answer: ", answer)
         print("=====================")
         print()
