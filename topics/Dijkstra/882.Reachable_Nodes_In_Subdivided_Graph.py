@@ -20,9 +20,6 @@ class Solution(object):
         while heap:
             distance, node = heappop(heap)
 
-            if distance > maxMoves:
-                break
-
             for neighbour, sub_nodes in graph[node]:
                 new_distance = distance + sub_nodes + 1
 
@@ -48,11 +45,10 @@ class Solution(object):
         # Merge them first (0-3 partial subnodes might overlap with 3-0 partial subnodes)
         merged_remainder_sub_nodes = defaultdict(int)
         for node1, node2 in remainder_sub_nodes:
-            distance = remainder_sub_nodes[node1, node2]
-            merged_remainder_sub_nodes[min(node1, node2), max(node1, node2)] += distance
             merged_remainder_sub_nodes[min(node1, node2), max(node1, node2)] = min(
                 distance_map[node1, node2],
-                merged_remainder_sub_nodes[min(node1, node2), max(node1, node2)],
+                merged_remainder_sub_nodes[min(node1, node2), max(node1, node2)]
+                + remainder_sub_nodes[node1, node2],
             )
 
         for distance in merged_remainder_sub_nodes.values():
