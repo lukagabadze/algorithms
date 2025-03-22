@@ -1,6 +1,21 @@
+"""
+NOTE: This is very funny, I was stuck on this solution for 2 days and it turns out,
+I had to add 3 characters to the code and it would get accepted.
+When counting all the nodes I had visited I had it initialized like this `nodes_set = set()`
+When in reality, you start from the node zero so you should have it like this: `nodes_set = set([0])`.
+So yeah, very funny.
+The code is shit, it is super slow, but I love it <3
+"""
+
 from typing import List
 from collections import defaultdict
 from heapq import heappop, heappush
+
+
+"""
+TIME: 328ms (Beats 8.45%) XD
+This solution sucks ass but it is MY solution so it is very dear to me
+"""
 
 
 class Solution(object):
