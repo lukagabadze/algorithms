@@ -34,7 +34,7 @@ class Solution(object):
                         )
 
         answer = 0
-        nodes_set = set()
+        nodes_set = set([0])
         for node1, node2 in visited_paths:
             answer += distance_map[(node1, node2)]
             nodes_set.update([node1, node2])
