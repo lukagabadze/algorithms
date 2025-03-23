@@ -16,6 +16,12 @@ I think I figured out why we put destination as the first element in the tuple o
 The reason might be that after we check out all the possible paths whithin some destination,
 we can just look into our answers array and find out the minimum cost it took to get to some node.
 If the value of that itme is float('inf') than we know that you can not reach that node withing given max distance.
+
+NOTE: I think this solution has a problem.
+What if I like the new price and I update the prices dictionary,
+but it turns out that distance + 1 is over the k limit and I ended up with
+the lowest price but it does not fit in the k distance limit.
+What the fuck...
 """
 
 from typing import List
