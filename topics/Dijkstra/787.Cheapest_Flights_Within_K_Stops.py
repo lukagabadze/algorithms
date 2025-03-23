@@ -22,6 +22,26 @@ What if I like the new price and I update the prices dictionary,
 but it turns out that distance + 1 is over the k limit and I ended up with
 the lowest price but it does not fit in the k distance limit.
 What the fuck...
+
+NOTE: Finally starting to understand this implementation, why I need to update the prices dictionary
+multiple times and not just once upon arriving at a node, like I have done in my previous Dijkstra implementations.
+The answer is that previously I had "price" (for example) as my first element of the priority queue tuples.
+It was sorted by price, so whenever I arrived at a node it was a FACT that that price was the lowest we could get.
+But in this problem, you have another element called "distance".
+
+NOW, you have 2 choices:
+1) Sort the queue by price (by putting price as the first element) and finding that one lowest price
+where the distance fits in the k limit.
+
+OR
+
+2) Sort the queue by distance, which will give you all the nodes with the lowest prices you can reach
+within that distance. BUT, you WILL have to reassign the prices dictionary as you go and find new lower price paths.
+
+Conclusion:
+In this problems case, you need to sort the priority queue by the distance to not get TLE (Time Limit Exceeded).
+Hence, you have to update the prices multiple times, but in the end, you can be sure
+that if a node exists in the prices dictionary, it is the LOWEST price you can get in THAT DISTANCE.
 """
 
 from typing import List
