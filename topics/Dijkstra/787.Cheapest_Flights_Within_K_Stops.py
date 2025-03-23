@@ -9,6 +9,13 @@ This way, we might see some nodes repeated in the heap, which is not something I
 
 TODO: I don't quite understand the details of this solution yet, I need to
 look into it more and completely write the explanation here!
+NOTE: I arrived at a problem "1928 Minimum Cost to Reach Destination in Time"
+which is very very similar to this problem in the sense that you have to control 2 values:
+Distance and Price.
+I think I figured out why we put destination as the first element in the tuple of the priority queue.
+The reason might be that after we check out all the possible paths whithin some destination,
+we can just look into our answers array and find out the minimum cost it took to get to some node.
+If the value of that itme is float('inf') than we know that you can not reach that node withing given max distance.
 """
 
 from typing import List
