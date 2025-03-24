@@ -14,23 +14,26 @@ class Solution(object):
             graph[node2].append((node1, time))
             n = max(n, node1, node2)
 
-        # Each item of the heap contains (time, (price, node))
-        heap = [(0, (passingFees[0], 0))]
+        # Each item of the heap contains (price, (time, node))
+        heap = [(passingFees[0], (0, 0))]
         min_cost = defaultdict(lambda: float("inf"))
         while heap:
-            time, (price, node) = heappop(heap)
+            price, (time, node) = heappop(heap)
+
+            if time > maxTime:
+                continue
+
+            if node == n:
+                return price
 
             for neighbour, neighbour_time in graph[node]:
                 new_time = time + neighbour_time
                 new_price = price + passingFees[neighbour]
-                if new_price < min_cost[neighbour] and new_time <= maxTime:
-                    heappush(heap, (new_time, (new_price, neighbour)))
+                if new_time <= maxTime and new_price < min_cost[neighbour]:
+                    heappush(heap, (new_price, (new_time, neighbour)))
                     min_cost[neighbour] = new_price
 
-        if min_cost[n] == float("inf"):
-            return -1
-
-        return min_cost[n]
+        return -1
 
 
 if __name__ == "__main__":
