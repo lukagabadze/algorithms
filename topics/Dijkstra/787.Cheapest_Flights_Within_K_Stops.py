@@ -42,6 +42,25 @@ Conclusion:
 In this problems case, you need to sort the priority queue by the distance to not get TLE (Time Limit Exceeded).
 Hence, you have to update the prices multiple times, but in the end, you can be sure
 that if a node exists in the prices dictionary, it is the LOWEST price you can get in THAT DISTANCE.
+
+NOTE: I noticed a potential gap in this solution, specifically in price dictionary assignment, where we don't check the distance and update
+the price dictionary with the new lowest price. I though there would be an edge case where we update the prices dict, but the distance would go over the k limit.
+So I just coded up a different type of solution where assignment of the prices dictionary happens right after the heap pops and we check for the distance.
+It did not work at first, I then realized that we sort the priority queue by the distance, so the price might not be the lowest when we get to a certain node.
+So I just added a min check `prices[node] = min(price, prices[node])`.
+It still did NOT work.
+I then figured out that this solution looks at STOPS and not DISTANCE.
+To calculate stops from distance you need to subtract one from distance. So stops = distance - 1
+So in the distance check I just needed to add `distance - 1 > k` to break.
+This made the new solution work but if I were to go back to the older solution it would require me to update this distance check once more, back to `distance > k`.
+So that's why it worked in the first place, because the difference between stops and distance were taken into consideration.
+When I updated the prices dictionary every time I found a lower price path, there could NOT have been a case where the distance would be over the k limit.
+If it were over the k limit, it would have been broken in the `distance > k` check.
+Took me a week to understand but still pretty cool!
+
+NOTE: This new solution is 6 times slower than the previous one.
+I will still keep this soltuion here for reference but it should be noted that the previous one worked better for some reason.
+Now I need to understand why that is... this never fucking stops...
 """
 
 from typing import List
@@ -62,17 +81,16 @@ class Solution(object):
         while heap:
             (distance, (price, node)) = heappop(heap)
 
-            if distance > k:
+            if distance - 1 > k:
                 break
 
+            prices[node] = min(price, prices[node])
+
             for neighbour, n_price in graph[node]:
-                # If going to the neighbour decreases my price,
-                # update the prices dict and push the node to the heap.
                 if price + n_price < prices[neighbour]:
-                    prices[neighbour] = price + n_price
                     heappush(heap, (distance + 1, (price + n_price, neighbour)))
 
-        if dst in prices:
+        if prices[dst] != float("inf"):
             return prices[dst]
 
         return -1
@@ -87,11 +105,13 @@ if __name__ == "__main__":
         (3, [[0, 1, 100], [1, 2, 100], [0, 2, 500]], 0, 2, 0),
         (4, [[0, 1, 1], [0, 2, 5], [1, 2, 1], [2, 3, 1]], 0, 3, 1),
         (4, [[0, 1, 1], [0, 2, 5], [1, 2, 1], [2, 3, 1]], 0, 3, 2),
+        (4, [[0, 1, 100], [1, 2, 100], [2, 3, 100], [0, 2, 500]], 0, 3, 0),
     ]
 
     for n, flights, src, dst, k in q:
         print("n: ", n)
-        print("flights: ", flights)
+        for row in flights:
+            print(row)
         print("src: ", src)
         print("dst: ", dst)
         print("k: ", k)
