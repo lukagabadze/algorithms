@@ -1,3 +1,11 @@
+"""
+NOTE: After days of getting MLE, TLE, Wrong Answer on this problem, I finally solved it!
+I just added min_time dictionary next to the min_cost dictionary.
+And I go to a node only if one of these metrics can be improved by going there, either time or the price.
+Before, I only went to a node if it improved my pricing and did not go over the maxTime limit.
+But now, I can take any fucking improvements because my solution was NOT getting accepted.
+"""
+
 from typing import List
 from collections import defaultdict
 from heapq import heappop, heappush
@@ -17,11 +25,9 @@ class Solution(object):
         # Each item of the heap contains (price, (time, node))
         heap = [(passingFees[0], (0, 0))]
         min_cost = defaultdict(lambda: float("inf"))
+        min_time = defaultdict(lambda: float("inf"))
         while heap:
             price, (time, node) = heappop(heap)
-
-            if time > maxTime:
-                continue
 
             if node == n:
                 return price
@@ -29,9 +35,16 @@ class Solution(object):
             for neighbour, neighbour_time in graph[node]:
                 new_time = time + neighbour_time
                 new_price = price + passingFees[neighbour]
-                if new_time <= maxTime and new_price < min_cost[neighbour]:
+
+                if new_time > maxTime:
+                    continue
+
+                # If time or price can be improved
+                # put the neighbour in the queue
+                if new_time < min_time[neighbour] or new_price < min_cost[neighbour]:
                     heappush(heap, (new_price, (new_time, neighbour)))
-                    min_cost[neighbour] = new_price
+                    min_cost[neighbour] = min(new_price, min_cost[neighbour])
+                    min_time[neighbour] = min(new_time, min_time[neighbour])
 
         return -1
 
