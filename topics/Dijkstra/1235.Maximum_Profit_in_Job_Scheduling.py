@@ -35,9 +35,16 @@ class Solution(object):
             while i < n and paths[i][0] < paths[time_ind][1]:
                 i += 1
 
-            # Go through all the neighbours
-            while i == n - 1 or (i < n and paths[i][1] >= paths[i + 1][0]):
+            # Go through all the neighbours.
+            # Neighbours are all sequential paths until we meet one path where
+            # its startTime is more than max endTime we saw in the neighbours.
+            max_end = float("inf")
+            while i == n - 1 or (i < n and max_end > paths[i + 1][0]):
                 heappush(heap, (money - paths[i][2], i))
+
+                if i != n - 1:
+                    max_end = max(max_end, paths[i + 1][1])
+
                 i += 1
 
         return -min(answers.values())
@@ -54,6 +61,11 @@ if __name__ == "__main__":
             [6, 15, 7, 11, 1, 3, 16, 2],
             [19, 18, 19, 16, 10, 8, 19, 8],
             [2, 9, 1, 19, 5, 7, 3, 19],
+        ),
+        (
+            [24, 24, 7, 2, 1, 13, 6, 14, 18, 24],
+            [27, 27, 20, 7, 14, 22, 20, 24, 19, 27],
+            [6, 1, 4, 2, 3, 6, 5, 6, 9, 8],
         ),
     ]
 
