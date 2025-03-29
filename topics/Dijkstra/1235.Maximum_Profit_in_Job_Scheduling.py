@@ -20,6 +20,7 @@ class Solution(object):
         n = len(startTime)
 
         # Assemble the paths tuple array so I can sort it
+        # NOTE: This can be done easily using the `zip` function. (Check 1235 solution in DP folder)
         paths = []
         for i in range(len(startTime)):
             paths.append((startTime[i], endTime[i], profit[i]))

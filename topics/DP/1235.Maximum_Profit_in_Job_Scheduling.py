@@ -4,13 +4,34 @@ It is beautfiul.
 """
 
 from typing import List
+from bisect import bisect_right
 
 
 class Solution(object):
     def jobScheduling(
         self, startTime: List[int], endTime: List[int], profit: List[int]
     ) -> int:
-        return 0
+        jobs = sorted(zip(endTime, startTime, profit))
+        n = len(jobs)
+        print("jobs: ", jobs)
+
+        dp = [0] * (n + 1)
+        for i, (endTime, startTime, profit) in enumerate(jobs):
+            # Find a job before us from which we can attach this current job to.
+            # (We need the "rightmost" job which can come before this current job, that's why we use bisect_right)
+            # (You also need to write minus one in the end because bisect_right gives you the NEW index to insert the value to,
+            # the job we are looking for is right before that insert index)
+            job_before_index = (
+                bisect_right(jobs, (startTime, float("inf"), float("inf")), lo=0, hi=i)
+                - 1
+            )
+
+            # Find maximum between two values:
+            # d[i - 1] - Maximum profit WITHOUT including this current job.
+            # d[job_before_index] + profit - Maximum profit WITH including this current job.
+            dp[i] = max(dp[i - 1], dp[job_before_index] + profit)
+
+        return dp[n - 1]
 
 
 if __name__ == "__main__":
