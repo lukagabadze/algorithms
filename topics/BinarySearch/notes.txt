@@ -1,0 +1,5 @@
+- Python already provides functions for binary search from the bisect module, bisect_left and bisect_right.
+It would be a good idea to implement binary search by hand first and then learn bisect_left/right.
+
+- Good example of using binary search might be in Insertion Sort,
+you can probably turn O(n^2) into O(n*log(n)) using binary search to find the insertion place

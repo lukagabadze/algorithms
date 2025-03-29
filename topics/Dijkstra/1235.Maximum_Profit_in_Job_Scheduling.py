@@ -1,3 +1,13 @@
+"""
+NOTE: ChatGPT Told me this was a hard problem to practice Dijkstras algorithm.
+Well that was a fucking lie.
+
+This problem is solved using DP + Binary Search.
+It's really really awesome so I will be moving it to the DP folder.
+
+I will still keep this implementation because it works (if you don't consider the fact it gets TLE 🤭).
+"""
+
 from typing import List
 from collections import defaultdict
 from heapq import heappop, heappush

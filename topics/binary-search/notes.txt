@@ -1,2 +1,0 @@
-- Good example of using binary search might be in Insertion Sort,
-you can probably turn O(n^2) into O(n*log(n)) using binary search to find the insertion place
