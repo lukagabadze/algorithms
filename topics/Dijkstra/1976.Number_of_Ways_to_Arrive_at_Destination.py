@@ -12,26 +12,23 @@ class Solution(object):
 
         heap = [(0, 0)]
         distances = defaultdict(lambda: float("inf"))
-        distances[0] = 0
-        answer = 0
+        answers = defaultdict(int)
+        answers[0] = 1
         while heap:
             time, node = heappop(heap)
 
             for neighbour, neighbour_time in graph[node]:
                 new_time = time + neighbour_time
                 if new_time < distances[neighbour]:
-                    if neighbour == n - 1:
-                        answer = 1
                     heappush(heap, (new_time, neighbour))
                     distances[neighbour] = new_time
-                else:
-                    if neighbour == n - 1:
-                        answer += 1
 
-        # for i in range(n):
-        #     print(f"{i}: {distances[i]}")
+                if new_time == distances[neighbour]:
+                    answers[neighbour] = (answers[neighbour] + answers[node]) % (
+                        10**9 + 7
+                    )
 
-        return answer
+        return answers[n - 1]
 
 
 if __name__ == "__main__":
