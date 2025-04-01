@@ -9,38 +9,55 @@ NOTE: I only push the node in my heap if going there improves my time (distance)
 But my heap is sorted, so lowest distances will come first, the distances dictionary is filled with float('inf').
 How is it possible that I go through the same node twice? Is that even what happens here??? (I am hella confused).
 TODO: Figure this shit out, the question appears on the third test case in my array of questions at the bottom.
+
+NOTE: Before I dive deep into Dijsktra, I want to share a small find:
+ARRAYS ARE MUCH FASTER THAN DICTIONARIES.
+I have heard this before, and now I see it with my own eyes.
+Switching the graph, distances and answers for arrays instead of `defaultdict` made my solution 33% faster!
 """
 
 from heapq import heappop, heappush
 from typing import List
-from collections import defaultdict
+
+
+"""
+TIME: 24ms (Beats 25.42%)
+MEM: 25.18MB (Beats 41.15%)
+NOTE: This is with dictionaries (graph, distances, answers)
+
+TIME: 16ms (Beats 77.42%)
+MEM: 25.00MB (Beats 82.96%)
+NOTE: Now THIS is with arrays (graph, distances, answers), good shit!
+
+NOTE: Arrays > Dictionaries
+"""
 
 
 class Solution(object):
     def countPaths(self, n: int, roads: List[List[int]]) -> int:
-        graph = defaultdict(list)
+        MOD = 10**9 + 7
+        graph = [[] for _ in range(n)]
         for s, e, t in roads:
             graph[s].append((e, t))
             graph[e].append((s, t))
 
         heap = [(0, 0)]
-        distances = defaultdict(lambda: float("inf"))
-        answers = defaultdict(int)
+        distances = [float("inf")] * n
+        answers = [0] * n
         answers[0] = 1
         while heap:
             time, node = heappop(heap)
 
             for neighbour, neighbour_time in graph[node]:
                 new_time = time + neighbour_time
+
                 if new_time < distances[neighbour]:
                     heappush(heap, (new_time, neighbour))
                     distances[neighbour] = new_time
                     answers[neighbour] = 0
 
                 if new_time == distances[neighbour]:
-                    answers[neighbour] = (answers[neighbour] + answers[node]) % (
-                        10**9 + 7
-                    )
+                    answers[neighbour] = (answers[neighbour] + answers[node]) % MOD
 
         return answers[n - 1]
 
