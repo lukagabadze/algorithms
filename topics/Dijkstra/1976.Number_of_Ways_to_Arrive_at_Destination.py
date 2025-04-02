@@ -8,12 +8,37 @@ In this problem, my wrong answer was higher than the actual answer, so that sugg
 NOTE: I only push the node in my heap if going there improves my time (distance).
 But my heap is sorted, so lowest distances will come first, the distances dictionary is filled with float('inf').
 How is it possible that I go through the same node twice? Is that even what happens here??? (I am hella confused).
-TODO: Figure this shit out, the question appears on the third test case in my array of questions at the bottom.
 
 NOTE: Before I dive deep into Dijsktra, I want to share a small find:
 ARRAYS ARE MUCH FASTER THAN DICTIONARIES.
 I have heard this before, and now I see it with my own eyes.
 Switching the graph, distances and answers for arrays instead of `defaultdict` made my solution 33% faster!
+
+NOTE: I have figured out why we need to assign the distances inside the `if new_time < distances[neighbour]` statement:
+Assigning the distances inside or outside the if statement will give you the same result if you just want to know the minimum distance.
+BUT, in this problem we need to find all the possible paths to n-1 node, so we might (not might, absolutely) have to visit the same node twice to
+sum up all the different ways to reach that node and write it in the answers array `answers[neighbour] = (answers[neighbour] + answers[node]) % MOD`.
+If you went ahead and assigned the distances when you reach a node, like so:
+    if node in distances:
+        continue
+
+    distances[node] = time
+
+This way, you will never reach the same node twice, which you need to do in order to get the correct result here.
+Testcase #3 from my questions is a GREAT example for that.
+Once you reach node 3 from node 4 and write it in distances array, you will no longer consider that node from the node 2,
+but it has the same time so you SHOULD BE considering that path since you need the number of ALL paths.
+
+NOTE: Also, small detail crucial to this problem and this solution which I have written at the top of these notes but will repeat it again.
+When you go with the solution of writing distances in the if statement and visiting same nodes multiple times if necessary,
+you will have to nullify the value of the node in the answers array IF you find a shorted path, like so:
+    if new_time < distances[neighbour]:
+        heappush(heap, (new_time, neighbour))
+        distances[neighbour] = new_time
+        answers[neighbour] = 0
+
+The last line is important here, thats what this note is about.
+If you don't nullify it, your code will fail on my testcase #3 (I say my testcase but it was taken from leetcode 😊)
 """
 
 from heapq import heappop, heappush
