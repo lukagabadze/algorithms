@@ -6,6 +6,14 @@ I have a very good feeling that this could work well.
 from typing import List
 
 
+"""
+TIME: 1208ms (Beats 5.01%)
+NOTE: Yeah, Bellman-Ford does not do well here. I will try to improve on this but it does not look good so far.
+I'm still glad I solved it using bellman-ford.
+I also have a proper fast solution using Dijkstra's algorithm inside the Dijkstra folder.
+"""
+
+
 class Solution(object):
     def countPaths(self, n: int, roads: List[List[int]]) -> int:
         MOD = 10**9 + 7
@@ -16,28 +24,28 @@ class Solution(object):
 
         times = [float("inf")] * n
         times[0] = 0
-        answers = [(0, set())] * n
-        answers[0] = (1, set())
+        answers = [0] * n
+        answers[0] = 1
         for _ in range(n):
+            new_answers = [0] * n
+            new_answers[0] = 1
+
             for node in range(n):
                 for neighbour, time in graph[node]:
                     new_time = times[node] + time
 
                     if new_time < times[neighbour]:
                         times[neighbour] = new_time
-                        answers[neighbour] = (0, set())
+                        answers[neighbour] = 0
 
-                    if (
-                        new_time == times[neighbour]
-                        and new_time != float("inf")
-                        and node not in answers[neighbour][1]
-                    ):
-                        answers[neighbour] = (
-                            (answers[neighbour][0] + answers[node][0]) % MOD,
-                            answers[neighbour][1] | set([node]),
-                        )
+                    if new_time == times[neighbour] and new_time != float("inf"):
+                        new_answers[neighbour] = (
+                            new_answers[neighbour] + answers[node]
+                        ) % MOD
 
-        return answers[n - 1][0]
+            answers = list(new_answers)
+
+        return answers[n - 1]
 
 
 if __name__ == "__main__":
