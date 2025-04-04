@@ -1,3 +1,29 @@
+"""
+NOTE: I asked ChatGPT for problems that I would solve with Bellman-Ford and it gave me this.
+It really does NOT need Bellman-Ford, not even Dijkstra, just plain old BFS.
+
+NOTE: I had a piece of code that looked like this inside the graph creation logic:
+
+            if len(a) > 1:
+                for node in a:
+                    graph[a].append((node, 1))
+                    graph[node].append((a, 1))
+
+            if len(b) > 1:
+                for node in b:
+                    graph[b].append((node, 1))
+                    graph[node].append((b, 1))
+
+This code took a node "bc" and created edges between "b" -> "bc" with weight of 1
+and "c" -> "bc" with weight of 1.
+Basically, took every character of the node and created links between it and the entire node.
+I thought that made sence since if you have info that ab/cd and you have info individually on a, b, c and d
+you might be able to piece them together to make up ab/cd.
+But, I found out it had flaws, check my last testcase.
+It went from x1 to x to 4 to x4 to x5. Which as you guessed, is hella incorrect.
+But I am still wondering, how do you handle such case?
+"""
+
 from typing import List
 from collections import defaultdict
 
