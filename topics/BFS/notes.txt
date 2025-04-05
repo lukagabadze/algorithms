@@ -15,3 +15,7 @@ Good problem to start of with that is:
   200 Number of islands
   1091 Shortest Path in Binary Matrix
   751 Open the lock (NOTE: this problem showcases the time complexities of list vs set, ABSOLUTE MUST KNOW!!!!!)
+
+
+NOTE: "399 Evaluate Division" seems like a great problem where it does not seem like the problem
+can be solved with graphs and BFS, but you CAN turn it into graphs and BFS for a clean solution.
