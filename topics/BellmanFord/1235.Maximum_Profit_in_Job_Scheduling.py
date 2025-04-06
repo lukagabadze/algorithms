@@ -7,6 +7,10 @@ When you push one element in the 0th array, it pushet it to all (object referren
 The correct way to code this would be:
     graph = [[] for _ in range(n)]
 
+NOTE: I am switching to Dijkstra to solve this problem.
+But I really do believe this can be solved with Bellman-Ford (I am so fucking desperate to find Bellman-Ford problems 😭)
+Maybe keeping track of semesters and how many nodes can we put in that semester might be a key to solving this with Bellman-Ford (indexing the semesters).
+    semesters = [k] * n * k
 """
 
 from typing import List
