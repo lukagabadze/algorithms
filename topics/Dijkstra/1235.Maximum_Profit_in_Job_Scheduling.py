@@ -20,13 +20,18 @@ class Solution(object):
 
         # Initialize the heap with the starting points
         heap = []
-        for i in range(n):
-            if not reverse_graph[i]:
-                # (courses_taken, node)
-                heappush(heap, (0, i))
-
         semesters = [k] * n * k
         current_semester = 0
+        course_count = 0
+        for i in range(n):
+            if not reverse_graph[i]:
+                # (courses_taken, current_semester, node)
+                heappush(heap, (0, current_semester, i))
+                course_count += 1
+                semesters[current_semester] -= 1
+                if course_count > k:
+                    course_count %= k
+                    current_semester += 1
 
         def process_semester():
             nonlocal current_semester
@@ -37,14 +42,19 @@ class Solution(object):
 
         visited = set()
         while heap:
-            (courses_taken, node) = heappop(heap)
+            (courses_taken, node_current_semester, node) = heappop(heap)
+
+            if node_current_semester == current_semester:
+                current_semester += 1
 
             if courses_taken == 0:
                 process_semester()
 
             for neighbour in graph[node]:
                 if neighbour not in visited:
-                    heappush(heap, ((courses_taken + 1) % k, neighbour))
+                    heappush(
+                        heap, ((courses_taken + 1) % k, current_semester, neighbour)
+                    )
                     visited.add(neighbour)
 
         return sum(1 for item in semesters if item < k)
