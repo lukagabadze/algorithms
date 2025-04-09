@@ -6,9 +6,17 @@ I just don't know how to do it yet.
 
 NOTE: I updated the code and added node prioritization logic and it was a very very very solid solution.
 But it still fails... This time on testcase 75/82 (last testcase in my code).
+
+NOTE: I solved it using bitmasks, you can check it out inside the topics/Bitmask folder.
+I will still keep this because I really do believe this was a solid attempt by me.
 """
 
 from typing import List
+
+
+"""
+NOTE: DOES NOT WORK, WRONG ANSWER ON 75/82
+"""
 
 
 class Solution(object):
