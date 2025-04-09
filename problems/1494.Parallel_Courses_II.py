@@ -13,7 +13,6 @@ from typing import List
 
 class Solution(object):
     def minNumberOfSemesters(self, n: int, relations: List[List[int]], k: int) -> int:
-        n = n
         graph = [[] for _ in range(n)]
         reverse_graph = [[] for _ in range(n)]
         for s, e in relations:
