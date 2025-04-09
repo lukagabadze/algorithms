@@ -6,9 +6,6 @@ IT IS IMPORTANT TO USE pop(0) to pop from left (start) NOT pop()
 pop() causes the queue to pop from the right which causes the solution to act like DFS (LIFO)
 we want BFS, so we should pop from the start pop(0) popping from the start, BFS (FIFO)
 
-TODO:
-In island problems I look for every position of '1' (land) and run BFS through it
-if I have not already visited it, maybe there is a better way to find starting points.
 
 Good problem to start of with that is:
   Medium:

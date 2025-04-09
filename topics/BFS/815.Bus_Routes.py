@@ -4,7 +4,6 @@ from collections import deque
 """
 First try:
 TIME: 820ms (Beats 41.96%)
-TODO: This can be improved, look into it
 
 Second try:
 TIME: 91ms (Beats 84.14%)

@@ -3,9 +3,9 @@ NOTE: If a child goes below the "low" point, it can be safe to say that its left
 Same thing with "high", if a node goes above the "high" value, its right children will also go above "high", since node.right.val > node.val > high
 
 NOTE: While loops are necessary here!
-
-TODO: Maybe I can simplify the code
 """
+
+from utils import array_to_node_tree
 
 """
 TIME: 0ms

@@ -7,8 +7,6 @@ There are three reasons why we should check out the next node (append to the que
 2) The node has not been visited yet `next_node not in visited_nodes`
 3) The node has other unvisited nodes to offer us `len(set(graph[next_node]) - visited_nodes) > 0`
 
-TODO: Fix this shit
-
 NOTE: This was my last desperate attempt at solving this problem.
 I followed the instructions above, but instead of just looking at what a node had to offer,
 I had to keep track of nodes I did not take and put them into possible_nodes.

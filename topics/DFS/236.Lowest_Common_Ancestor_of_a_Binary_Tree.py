@@ -1,6 +1,7 @@
 """
 NOTE: I am not sure if this DFS or not, I am really confused on what problems and solutions count as DFS.
-TODO: Look into it!
+
+NOTE: Gabo after one month here, this is a DFS, it's recursive DFS.
 """
 
 from utils import array_to_node_tree, print_tree

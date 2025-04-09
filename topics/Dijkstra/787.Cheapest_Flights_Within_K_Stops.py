@@ -7,8 +7,6 @@ It goes to a certain node only if the price gets decreased.
 And also, it uses the distance to sort the min_heap, not price which is very very interesting.
 This way, we might see some nodes repeated in the heap, which is not something I saw in previous Dijsktra problems.
 
-TODO: I don't quite understand the details of this solution yet, I need to
-look into it more and completely write the explanation here!
 NOTE: I arrived at a problem "1928 Minimum Cost to Reach Destination in Time"
 which is very very similar to this problem in the sense that you have to control 2 values:
 Distance and Price.
