@@ -1,5 +1,5 @@
 from typing import List
-from collections import deque
+from heapq import heappop, heappush
 
 
 class Solution(object):
@@ -12,22 +12,26 @@ class Solution(object):
             graph[s].append(e)
             reverse_graph[e].append(s)
 
-        leafs = deque([(i, 0) for i in range(n) if not reverse_graph[i]])
+        leafs = []
+        for i in range(n):
+            if not reverse_graph[i]:
+                heappush(leafs, (time[i], i, 0))
+
         answer = 0
         while leafs:
             if not leafs:
                 return
 
-            node, start_time = leafs.popleft()
+            _, node, start_time = heappop(leafs)
 
-            answer += max(time[node] - answer + start_time, 0)
+            answer += max(start_time - answer + time[node], 0)
             reverse_graph[node] = "asd"
 
             for neighbour in graph[node]:
                 reverse_graph[neighbour].remove(node)
 
                 if not reverse_graph[neighbour]:
-                    leafs.append((neighbour, answer))
+                    heappush(leafs, (time[neighbour], neighbour, answer))
 
         return answer
 
@@ -38,6 +42,8 @@ if __name__ == "__main__":
     q = [
         (3, [[1, 3], [2, 3]], [3, 2, 5]),
         (5, [[1, 5], [2, 5], [3, 5], [3, 4], [4, 5]], [1, 2, 3, 4, 5]),
+        (5, [[1, 5], [2, 5], [3, 5], [3, 4], [4, 5]], [1, 1, 1, 4, 5]),
+        (5, [[1, 4], [3, 4], [5, 4]], [6, 8, 1, 2, 1]),
     ]
 
     for n, relations, time in q:
