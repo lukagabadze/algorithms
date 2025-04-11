@@ -1,5 +1,10 @@
 from typing import List
-from heapq import heappop, heappush
+
+
+"""
+TIME: 280ms (Beats 6.21%)
+It's slow, but I am proud since it is MY solution. I believe I can improve this a LOT before I peek into the solutions tab.
+"""
 
 
 class Solution(object):
@@ -12,26 +17,27 @@ class Solution(object):
             graph[s].append(e)
             reverse_graph[e].append(s)
 
-        leafs = []
-        for i in range(n):
-            if not reverse_graph[i]:
-                heappush(leafs, (time[i], i, 0))
+        min_times = [float("inf")] * n
 
+        def dfs(node: int):
+            if min_times[node] != float("inf"):
+                return min_times[node]
+
+            if not reverse_graph[node]:
+                return time[node]
+
+            node_time = (
+                max(dfs(neighbour) for neighbour in reverse_graph[node]) + time[node]
+            )
+            min_times[node] = node_time
+            return node_time
+
+        # Alphas are the lonely nodes, they don't go anywhere.
+        # Nodes come to them, but they don't have anywhere to go... poor alphas ✊😔
+        alphas = [node for node in range(n) if not graph[node]]
         answer = 0
-        while leafs:
-            if not leafs:
-                return
-
-            _, node, start_time = heappop(leafs)
-
-            answer += max(start_time - answer + time[node], 0)
-            reverse_graph[node] = "asd"
-
-            for neighbour in graph[node]:
-                reverse_graph[neighbour].remove(node)
-
-                if not reverse_graph[neighbour]:
-                    heappush(leafs, (time[neighbour], neighbour, answer))
+        for node in alphas:
+            answer = max(answer, dfs(node))
 
         return answer
 
