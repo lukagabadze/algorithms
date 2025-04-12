@@ -39,6 +39,12 @@ MEMORY: 123.9MB
 
 We saved 1ms but at the cost of 25.9MB of memory, not good imo.
 But for code readability, i think it's good.
+
+
+NOTE: reverse_graph was a LIE.
+you get the same result by using just the normal adjacency graph 😁
+Ony leetcode user mentioned it in the comments and I investigated it a little bit, here is my explanation:
+https://leetcode.com/problems/parallel-courses-iii/solutions/4180303/98-44-easy-solution-with-explanation/comments/2943814/?parent=2729304
 """
 
 from typing import List
@@ -64,9 +70,9 @@ It's an improvement, but not good enough.
 
 class Solution(object):
     def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:
-        reverse_graph = [[] for _ in range(n)]
+        graph = [[] for _ in range(n)]
         for s, e in relations:
-            reverse_graph[e - 1].append(s - 1)
+            graph[e - 1].append(s - 1)
 
         min_times = [-1] * n
 
@@ -74,13 +80,11 @@ class Solution(object):
             if min_times[node] != -1:
                 return min_times[node]
 
-            if not reverse_graph[node]:
+            if not graph[node]:
                 min_times[node] = time[node]
                 return min_times[node]
 
-            time_took = (
-                max(dfs(neighbour) for neighbour in reverse_graph[node]) + time[node]
-            )
+            time_took = max(dfs(neighbour) for neighbour in graph[node]) + time[node]
             min_times[node] = time_took
 
             return min_times[node]
