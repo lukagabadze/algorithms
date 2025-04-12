@@ -42,7 +42,6 @@ But for code readability, i think it's good.
 """
 
 from typing import List
-from functools import cache
 
 
 """
@@ -55,6 +54,11 @@ NOTE: I removed the graph array. It was only used to find the "alphas" the lonel
 But, you can reach the same result by just going through all the nodes and running dfs with caching.
 Speaking of caching, the reason why the memory result is so dogshit, is because I use @cache from functools.
 I will swich back to min_times array for caching and see the results.
+
+TIME: 170ms (Beats 32.65%)
+Memory: 91.42MB (Beats 5.01%)
+NOTE: I did what I said I would do, but did not get the greatest results.
+It's an improvement, but not good enough.
 """
 
 
@@ -64,12 +68,22 @@ class Solution(object):
         for s, e in relations:
             reverse_graph[e - 1].append(s - 1)
 
-        @cache
-        def dfs(node: int):
-            if not reverse_graph[node]:
-                return time[node]
+        min_times = [-1] * n
 
-            return max(dfs(neighbour) for neighbour in reverse_graph[node]) + time[node]
+        def dfs(node: int):
+            if min_times[node] != -1:
+                return min_times[node]
+
+            if not reverse_graph[node]:
+                min_times[node] = time[node]
+                return min_times[node]
+
+            time_took = (
+                max(dfs(neighbour) for neighbour in reverse_graph[node]) + time[node]
+            )
+            min_times[node] = time_took
+
+            return min_times[node]
 
         answer = 0
         for node in range(n):
