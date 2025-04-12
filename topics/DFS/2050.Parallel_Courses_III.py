@@ -65,6 +65,11 @@ TIME: 170ms (Beats 32.65%)
 Memory: 91.42MB (Beats 5.01%)
 NOTE: I did what I said I would do, but did not get the greatest results.
 It's an improvement, but not good enough.
+
+TIME: 115ms (Beats 94.53%)
+MEMORY: 48.20MB (Beats 45.56%)
+NOTE: I switched from list comprehension to an explicit for loop inside my dfs function, which made ALL the difference.
+I explained it here: https://leetcode.com/problems/parallel-courses-iii/solutions/4180303/98-44-easy-solution-with-explanation/comments/2943826/
 """
 
 
@@ -84,8 +89,11 @@ class Solution(object):
                 min_times[node] = time[node]
                 return min_times[node]
 
-            time_took = max(dfs(neighbour) for neighbour in graph[node]) + time[node]
-            min_times[node] = time_took
+            time_took = 0
+            for neighbour in graph[node]:
+                time_took = max(time_took, dfs(neighbour))
+
+            min_times[node] = time_took + time[node]
 
             return min_times[node]
 
