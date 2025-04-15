@@ -20,16 +20,16 @@ class Solution(object):
             (0, src1, NodeType.first),
             (0, src2, NodeType.second),
         ]
+
         min_weights_1 = [-1] * n
+        min_weights_1[src1] = 0
+
         min_weights_2 = [-1] * n
+        min_weights_2[src2] = 0
+
         min_weights = [-1] * n
         while heap:
             weight, node, node_type = heappop(heap)
-
-            print("node: ", node)
-            print("weight: ", weight)
-            print("node_type: ", node_type)
-            print()
 
             for neighbour, neighbour_weight in graph[node]:
                 new_weight = weight + neighbour_weight
@@ -39,59 +39,46 @@ class Solution(object):
                     if min_weights_1[neighbour] != -1:
                         continue
 
-                    min_weights_1[neighbour] = new_weight
-
                     # If NodeType.second has already been here, continue as NodeType.both
                     # Otherwise, just continue NodeType.first
                     if min_weights_2[neighbour] != -1:
-                        heappush(
-                            heap,
-                            (
-                                min_weights_1[node] + min_weights_2[node],
-                                node,
-                                NodeType.both,
-                            ),
+                        new_weight = (
+                            min_weights_2[neighbour] + weight + neighbour_weight
                         )
+                        heappush(heap, (new_weight, node, NodeType.both))
+                        min_weights[neighbour] = new_weight
                     else:
                         heappush(heap, (new_weight, neighbour, NodeType.first))
+                        min_weights_1[neighbour] = new_weight
 
                 # NodeType.second
                 if node_type == NodeType.second:
                     if min_weights_2[neighbour] != -1:
                         continue
 
-                    min_weights_2[neighbour] = new_weight
-
                     # If NodeType.first has already been here, continue as NodeType.both
                     # Otherwise, just continue NodeType.second
                     if min_weights_1[neighbour] != -1:
-                        heappush(
-                            heap,
-                            (
-                                min_weights_1[node] + min_weights_2[node],
-                                node,
-                                NodeType.both,
-                            ),
+                        new_weight = (
+                            min_weights_1[neighbour] + weight + neighbour_weight
                         )
+                        heappush(heap, (new_weight, node, NodeType.both))
+                        min_weights[neighbour] = new_weight
                     else:
                         heappush(heap, (new_weight, neighbour, NodeType.second))
+                        min_weights_2[neighbour] = new_weight
 
                 # NodeType.both
                 if node_type == NodeType.both:
                     if neighbour == dest:
                         return new_weight
 
-                    if min_weights[node] != -1:
+                    if min_weights[neighbour] != -1:
                         continue
 
                     min_weights[neighbour] = new_weight
 
                     heappush(heap, (new_weight, neighbour, NodeType.both))
-
-        print("min_weights_1: ", min_weights_1)
-        print("min_weights_2: ", min_weights_2)
-        print("min_weights: ", min_weights)
-        print()
 
         return -1
 
@@ -117,37 +104,37 @@ if __name__ == "__main__":
             1,
             5,
         ),
-        # (3, [[0, 1, 1], [2, 1, 1]], 0, 1, 2),
-        # (
-        #     5,
-        #     [[0, 2, 1], [0, 3, 1], [2, 4, 1], [3, 4, 1], [1, 2, 1], [1, 3, 10]],
-        #     0,
-        #     1,
-        #     4,
-        # ),
-        # (
-        #     5,
-        #     [[4, 2, 20], [4, 3, 46], [0, 1, 15], [0, 1, 43], [0, 1, 32], [3, 1, 13]],
-        #     0,
-        #     4,
-        #     1,
-        # ),
-        # (3, [[0, 2, 10], [1, 2, 10], [1, 0, 1]], 0, 1, 2),
-        # (
-        #     6,
-        #     [
-        #         [0, 2, 10],
-        #         [0, 4, 2],
-        #         [1, 4, 2],
-        #         [1, 3, 10],
-        #         [3, 5, 10],
-        #         [4, 5, 20],
-        #         [2, 5, 10],
-        #     ],
-        #     0,
-        #     1,
-        #     5,
-        # ),
+        (3, [[0, 1, 1], [2, 1, 1]], 0, 1, 2),
+        (
+            5,
+            [[0, 2, 1], [0, 3, 1], [2, 4, 1], [3, 4, 1], [1, 2, 1], [1, 3, 10]],
+            0,
+            1,
+            4,
+        ),
+        (
+            5,
+            [[4, 2, 20], [4, 3, 46], [0, 1, 15], [0, 1, 43], [0, 1, 32], [3, 1, 13]],
+            0,
+            4,
+            1,
+        ),
+        (3, [[0, 2, 10], [1, 2, 10], [1, 0, 1]], 0, 1, 2),
+        (
+            6,
+            [
+                [0, 2, 10],
+                [0, 4, 2],
+                [1, 4, 2],
+                [1, 3, 10],
+                [3, 5, 10],
+                [4, 5, 20],
+                [2, 5, 10],
+            ],
+            0,
+            1,
+            5,
+        ),
     ]
 
     for n, edges, src1, src2, dest in q:
