@@ -21,11 +21,14 @@ class Solution(object):
             (0, src2, NodeType.second),
         ]
         min_weights_1 = [float("inf")] * n
+        min_weights_1[src1] = 0
         min_weights_2 = [float("inf")] * n
+        min_weights_2[src2] = 0
         min_weights = [float("inf")] * n
 
         while heap:
             weight, node, node_type = heappop(heap)
+
             if node == dest and node_type == NodeType.both:
                 return weight
 
@@ -34,44 +37,46 @@ class Solution(object):
 
                 # NodeType.first
                 if node_type == NodeType.first:
+                    possible_type_three_weight = new_weight + min_weights_2[neighbour]
+
                     # If NodeType.second has already been here and going to the neighbour as NodeType.both is benefitial,
                     # continue as NodeType.both, otherwise, just continue as NodeType.first
                     if (
                         min_weights_2[neighbour] != float("inf")
-                        and new_weight + min_weights_2[neighbour]
-                        < min_weights[neighbour]
+                        and possible_type_three_weight < min_weights[neighbour]
                     ):
                         heappush(
                             heap,
                             (
-                                new_weight + min_weights_2[neighbour],
+                                possible_type_three_weight,
                                 neighbour,
                                 NodeType.both,
                             ),
                         )
-                        min_weights[neighbour] = new_weight
+                        min_weights[neighbour] = possible_type_three_weight
                     elif new_weight < min_weights_1[neighbour]:
                         heappush(heap, (new_weight, neighbour, NodeType.first))
                         min_weights_1[neighbour] = new_weight
 
                 # NodeType.second
                 if node_type == NodeType.second:
+                    possible_type_three_weight = new_weight + min_weights_1[neighbour]
+
                     # Same here, if NodeType.first has already been here and going to the neighbour as NodeType.both is benefitial,
                     # continue as NodeType.both, otherwise, just continue as NodeType.second
                     if (
                         min_weights_1[neighbour] != float("inf")
-                        and new_weight + min_weights_1[neighbour]
-                        < min_weights[neighbour]
+                        and possible_type_three_weight < min_weights[neighbour]
                     ):
                         heappush(
                             heap,
                             (
-                                new_weight + min_weights_1[neighbour],
+                                possible_type_three_weight,
                                 neighbour,
                                 NodeType.both,
                             ),
                         )
-                        min_weights[neighbour] = new_weight
+                        min_weights[neighbour] = possible_type_three_weight
                     elif new_weight < min_weights_2[neighbour]:
                         heappush(heap, (new_weight, neighbour, NodeType.second))
                         min_weights_2[neighbour] = new_weight
