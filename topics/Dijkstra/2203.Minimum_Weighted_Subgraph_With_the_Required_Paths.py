@@ -1,5 +1,28 @@
+"""
+NOTE: Huge thanks to the GOAT shrok.
+He came up with a solution of just running one Dijkstra and leaving a trail so to speak to find an answer.
+(https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths/solutions/1844479/simultaneous-dijkstra-beats-100-only-1-dijkstra)
+
+NOTE: The code is very different from the solution, I put the node type logic inside the neighbour for loop.
+So I had to adapt the code for it to pass.
+You can also do it the other way around (have the neighbour for loop inside each node type logic), just like shrok's solution,
+but I just started writing the solution on my own and found myself trying to solve it like this.
+
+NOTE: The final nail in the coffin to solve this problem was to slightly change the node type logic.
+If the code saw you could go from node_type 1 to node_type 3 it would take it immediately and never consider
+staying on the node_type 1 route.
+Now, instead of having if and elif, I just have 2 ifs.
+This way, we consider both node_type 3 and node_type 1 routes.
+"""
+
 from heapq import heappop, heappush
 from typing import List
+
+
+"""
+TIME: 718ms (Beats 82.44%)
+MEMORY: 75.38MB (Beats 97.55%)
+"""
 
 
 class Solution(object):
@@ -54,7 +77,8 @@ class Solution(object):
                             ),
                         )
                         min_weights[neighbour] = possible_type_three_weight
-                    elif new_weight < min_weights_1[neighbour]:
+
+                    if new_weight < min_weights_1[neighbour]:
                         heappush(heap, (new_weight, neighbour, NodeType.first))
                         min_weights_1[neighbour] = new_weight
 
@@ -77,7 +101,8 @@ class Solution(object):
                             ),
                         )
                         min_weights[neighbour] = possible_type_three_weight
-                    elif new_weight < min_weights_2[neighbour]:
+
+                    if new_weight < min_weights_2[neighbour]:
                         heappush(heap, (new_weight, neighbour, NodeType.second))
                         min_weights_2[neighbour] = new_weight
 
