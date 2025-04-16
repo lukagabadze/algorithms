@@ -31,6 +31,9 @@ class Solution(object):
         while heap:
             weight, node, node_type = heappop(heap)
 
+            if node == dest and node_type == NodeType.both:
+                return weight
+
             for neighbour, neighbour_weight in graph[node]:
                 new_weight = weight + neighbour_weight
 
@@ -45,7 +48,7 @@ class Solution(object):
                         new_weight = (
                             min_weights_2[neighbour] + weight + neighbour_weight
                         )
-                        heappush(heap, (new_weight, node, NodeType.both))
+                        heappush(heap, (new_weight, neighbour, NodeType.both))
                         min_weights[neighbour] = new_weight
                     else:
                         heappush(heap, (new_weight, neighbour, NodeType.first))
@@ -62,7 +65,7 @@ class Solution(object):
                         new_weight = (
                             min_weights_1[neighbour] + weight + neighbour_weight
                         )
-                        heappush(heap, (new_weight, node, NodeType.both))
+                        heappush(heap, (new_weight, neighbour, NodeType.both))
                         min_weights[neighbour] = new_weight
                     else:
                         heappush(heap, (new_weight, neighbour, NodeType.second))
@@ -70,9 +73,6 @@ class Solution(object):
 
                 # NodeType.both
                 if node_type == NodeType.both:
-                    if neighbour == dest:
-                        return new_weight
-
                     if min_weights[neighbour] != -1:
                         continue
 
