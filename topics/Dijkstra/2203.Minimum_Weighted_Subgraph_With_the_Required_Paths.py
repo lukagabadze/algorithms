@@ -20,17 +20,12 @@ class Solution(object):
             (0, src1, NodeType.first),
             (0, src2, NodeType.second),
         ]
+        min_weights_1 = [float("inf")] * n
+        min_weights_2 = [float("inf")] * n
+        min_weights = [float("inf")] * n
 
-        min_weights_1 = [-1] * n
-        min_weights_1[src1] = 0
-
-        min_weights_2 = [-1] * n
-        min_weights_2[src2] = 0
-
-        min_weights = [-1] * n
         while heap:
             weight, node, node_type = heappop(heap)
-
             if node == dest and node_type == NodeType.both:
                 return weight
 
@@ -39,46 +34,53 @@ class Solution(object):
 
                 # NodeType.first
                 if node_type == NodeType.first:
-                    if min_weights_1[neighbour] != -1:
-                        continue
-
-                    # If NodeType.second has already been here, continue as NodeType.both
-                    # Otherwise, just continue NodeType.first
-                    if min_weights_2[neighbour] != -1:
-                        new_weight = (
-                            min_weights_2[neighbour] + weight + neighbour_weight
+                    # If NodeType.second has already been here and going to the neighbour as NodeType.both is benefitial,
+                    # continue as NodeType.both, otherwise, just continue as NodeType.first
+                    if (
+                        min_weights_2[neighbour] != float("inf")
+                        and new_weight + min_weights_2[neighbour]
+                        < min_weights[neighbour]
+                    ):
+                        heappush(
+                            heap,
+                            (
+                                new_weight + min_weights_2[neighbour],
+                                neighbour,
+                                NodeType.both,
+                            ),
                         )
-                        heappush(heap, (new_weight, neighbour, NodeType.both))
                         min_weights[neighbour] = new_weight
-                    else:
+                    elif new_weight < min_weights_1[neighbour]:
                         heappush(heap, (new_weight, neighbour, NodeType.first))
                         min_weights_1[neighbour] = new_weight
 
                 # NodeType.second
                 if node_type == NodeType.second:
-                    if min_weights_2[neighbour] != -1:
-                        continue
-
-                    # If NodeType.first has already been here, continue as NodeType.both
-                    # Otherwise, just continue NodeType.second
-                    if min_weights_1[neighbour] != -1:
-                        new_weight = (
-                            min_weights_1[neighbour] + weight + neighbour_weight
+                    # Same here, if NodeType.first has already been here and going to the neighbour as NodeType.both is benefitial,
+                    # continue as NodeType.both, otherwise, just continue as NodeType.second
+                    if (
+                        min_weights_1[neighbour] != float("inf")
+                        and new_weight + min_weights_1[neighbour]
+                        < min_weights[neighbour]
+                    ):
+                        heappush(
+                            heap,
+                            (
+                                new_weight + min_weights_1[neighbour],
+                                neighbour,
+                                NodeType.both,
+                            ),
                         )
-                        heappush(heap, (new_weight, neighbour, NodeType.both))
                         min_weights[neighbour] = new_weight
-                    else:
+                    elif new_weight < min_weights_2[neighbour]:
                         heappush(heap, (new_weight, neighbour, NodeType.second))
                         min_weights_2[neighbour] = new_weight
 
                 # NodeType.both
                 if node_type == NodeType.both:
-                    if min_weights[neighbour] != -1:
-                        continue
-
-                    min_weights[neighbour] = new_weight
-
-                    heappush(heap, (new_weight, neighbour, NodeType.both))
+                    if new_weight < min_weights[neighbour]:
+                        heappush(heap, (new_weight, neighbour, NodeType.both))
+                        min_weights[neighbour] = new_weight
 
         return -1
 
@@ -115,6 +117,14 @@ if __name__ == "__main__":
         (
             5,
             [[4, 2, 20], [4, 3, 46], [0, 1, 15], [0, 1, 43], [0, 1, 32], [3, 1, 13]],
+            0,
+            4,
+            1,
+        ),
+        # Same as the previous one, but longer 0->1 weight comes first
+        (
+            5,
+            [[4, 2, 20], [4, 3, 46], [0, 1, 43], [0, 1, 15], [0, 1, 32], [3, 1, 13]],
             0,
             4,
             1,
