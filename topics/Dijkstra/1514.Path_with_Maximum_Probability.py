@@ -13,10 +13,17 @@ The code should look like this when you are dealing with an undirected graph:
         for i, (node1, node2) in enumerate(edges):
             graph[node1].append((node2, -succProb[i]))
             graph[node2].append((node1, -succProb[i]))
+
+
+NOTE: I tried to get better results by tweaking a few more things but I can't get better than 87ms.
+Things I tried:
+1) switching probs array to probs_calculated which only holds boolean values instead of whole probabilities.
+2) Tweaking the probs array to hold -1, 0 or 1 based on whichever gave me better performance.
+
+These two tweaks did not do anything benefitial. It was worth a try though.
 """
 
 from typing import List
-from collections import defaultdict
 from heapq import heappop, heappush
 
 
