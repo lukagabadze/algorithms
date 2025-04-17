@@ -39,6 +39,12 @@ NOTE: This is with graph and probs as dictionaries.
 TIME: 185ms (Beats 11.56%)
 MEMORY: 29.25MB (Beats 38.04%)
 NOTE: This is by just switching graph and probs from dictionaries to arrays.
+
+TIME: 87ms (Beats 91.56%)
+MEMORY: 29.06MB (Beats 48.91%)
+NOTE: This improvement came from exiting early while finding the end_node.
+Previously, I calculated maximum probability from start node to every other node
+and then returned the prob[end_node], but now, I just return it as soon as its calculated.
 """
 
 
@@ -61,6 +67,9 @@ class Solution(object):
         while heap:
             (prob, node) = heappop(heap)
 
+            if node == end_node:
+                return -prob
+
             if probs[node] != 0:
                 continue
 
@@ -69,7 +78,7 @@ class Solution(object):
             for neighbour, n_prob in graph[node]:
                 heappush(heap, (prob * n_prob, neighbour))
 
-        return probs[end_node] * -1
+        return 0
 
 
 if __name__ == "__main__":
