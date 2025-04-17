@@ -1,3 +1,25 @@
 "1514 Path with Maximum Probability" is a problem that can be solved with Bellman Ford's algorithm.
 I solved it with Dijsktra and it passed, but the solution was very slow.
 I read in the solutions tab that bellman ford algo beats 100% here.
+
+UPDATE: I don't know where I read that Bellman-Ford gets 100% here but it definetely does not.
+I will still solve it using Bellman-Ford though.
+
+There are legit ZERO problems on leetcode which require Bellman-Ford, how the fuck am I supposed to practice it.
+I will have to use a different platform to practice Bellman-Ford.
+I am NOT solving 1514 with Bellman-Ford.
+n = 10^4
+m = len(edges) = 2 * 10^4
+and the time complexity of Bellman-Ford is O(n*m) so 10^8... EIGHT bro.
+Fuck you, I will solve it just to prove how stupid it is.
+
+NOTE: I just solved it and I am impressed, you can read the notes inside my code to know more but I am surprised.
+
+NOTE: Checking for a negative-weight cycle is a part of what Bellman-Ford does well.
+TODO: Find a problem where finding a negative-weight cycle is a solution.
+(https://www.geeksforgeeks.org/detect-negative-cycle-graph-bellman-ford/)
+
+
+RESOURCES:
+[Codeforces – 20C / 1167D / 999E]
+[SPOJ – NEG2]
