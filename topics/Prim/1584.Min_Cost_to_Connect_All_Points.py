@@ -23,6 +23,19 @@ from heapq import heappush, heappop
 TIME: 2430ms (Beats 28.79%)
 MEMORY: 79.71MB (Beats 80.21%)
 NOTE: This is just basic implementation of Prim's Algorithm without any caching improvements.
+
+TIME: 390ms (Beats 97.16%)
+MEMORY: 21.58 MB (Beats 91.85%)
+NOTE: This is after adding the dist_cache array where I cache minimum distances that will arrive in the future,
+I check new arrivals and if they are not lower than the cache, it's literally just useless to put it in the heapq,
+because, the minimum distance I have in the dist_cache will one day rise up from the heapq and make its debut in the final dists array. (absolute cinema).
+
+NOTE: One thing I was NOT expecting was for the memory to improve by this much!
+But it makes sense, I introduced the dist_cache array and filled it with float('inf'),
+BUT, I don't put useless garbage inside the heapq anymore, so it stays minimal,
+thus, the 4x improvement on memory AND 6x improvement on time.
+
+NOTE: This improvement also came from niits solution, so again, HUGE thanks to him!
 """
 
 
@@ -32,6 +45,7 @@ class Solution:
         heap = [(0, 0)]
         dists = [0] * n
         visited = set()
+        dist_cache = [float("inf")] * n
         while heap:
             distance, ind = heappop(heap)
 
@@ -49,7 +63,9 @@ class Solution:
                     points[ind][1] - points[point_ind][1]
                 )
 
-                heappush(heap, (point_distance, point_ind))
+                if point_distance < dist_cache[point_ind]:
+                    dist_cache[point_ind] = point_distance
+                    heappush(heap, (point_distance, point_ind))
 
         return sum(dists)
 
