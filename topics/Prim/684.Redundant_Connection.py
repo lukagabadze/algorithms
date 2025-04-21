@@ -4,13 +4,17 @@ Because currently I have NO clue how I can find the last edge in the input in O(
 """
 
 from typing import List
-from heapq import heappop, heappush
+from collections import deque
 
 
 """
 TIME: 11ms (Beats 15.07%)
 MEMORY: 18.14MB (Beats 78.34%)
 NOTE: I don't like this, I need to improve this.
+
+TIME: 8ms (Beats 16.68%)
+MEMORY: 18.25MB (Beats 57.76%)
+NOTE: Not using a heap (priority queue) and just using deque saved me 3ms. But it is still NOT enough.
 """
 
 
@@ -24,11 +28,11 @@ class Solution(object):
             graph[b].append(a)
 
         for i, [a, b] in enumerate(edges[::-1]):
-            heap = [(0, 1, -1)]
+            queue = deque([(1, -1)])
             visited = set()
             found = True
-            while heap:
-                dist, node, parent = heappop(heap)
+            while queue:
+                node, parent = queue.popleft()
 
                 if node in visited:
                     found = False
@@ -41,7 +45,7 @@ class Solution(object):
                         continue
 
                     if neighbour not in visited:
-                        heappush(heap, (dist + 1, neighbour, node))
+                        queue.append((neighbour, node))
 
             if found and len(visited) == n:
                 return [a, b]
