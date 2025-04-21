@@ -1,24 +1,6 @@
 """
 NOTE: My Dijkstra solutions are passing but they are performing worse than the average.
 I don't know why that is, maybe these problems are better suited for Bellman Ford algorithm or something, idk I have not learned it yet.
-"""
-
-from typing import List
-from collections import defaultdict
-from heapq import heappop, heappush
-
-
-"""
-TIME: 734ms (Beats 22.76%)
-NOTE: Can be improved!
-
-TIME: 554ms (Beats 28.61%)
-NOTE: Exitting early while finding the answer for the target seems to speed things up, but not quite enough.
-
-TIME: 401ms (Beats 43.66%)
-NOTE: I moved the efforts logic into the directions loop and it seems to have speed up the solution, BUT HOW THO???
-
-NOTE: This was kinda the case in 1514 as well, where moving the logic inside the directions loop solved my problems.
 
 NOTE: Cool python syntax:
         m = len(heights)
@@ -35,6 +17,30 @@ into:
         x, y = i + dx, j + dy
 """
 
+from typing import List
+from heapq import heappop, heappush
+
+
+"""
+TIME: 734ms (Beats 22.76%)
+NOTE: Can be improved!
+
+TIME: 554ms (Beats 28.61%)
+NOTE: Exitting early while finding the answer for the target seems to speed things up, but not quite enough.
+
+TIME: 401ms (Beats 43.66%)
+MEMORY: 19.73MB (Beats 50.66%)
+NOTE: I moved the efforts logic into the directions loop and it seems to have speed up the solution, BUT HOW THO???
+This was kinda the case in 1514 as well, where moving the logic inside the directions loop solved my problems.
+NOTE: Gabo one month later here, I was pusing all the points_of_interest without checking if it improved my efforts dictionary.
+That's why putting the logic outside the for loop worked slower. It basically had no caching, it would push everything into the heapq until every cell was covered. (I think).
+
+TIME: 305ms (Beats 70.87%)
+MEMORY: 19.16MB (Beats 90.47%)
+NOTE: I just replaced the efforts dictionary into an efforts matrix.
+Generally arrays are faster than dictionaries. Hence the great result!
+"""
+
 
 class Solution(object):
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
@@ -43,7 +49,7 @@ class Solution(object):
 
         # Heap containing (effort, (row, col))
         heap = [(0, (0, 0))]
-        efforts = defaultdict(lambda: float("inf"))
+        efforts = [[float("inf") for _ in range(n)] for _ in range(m)]
         while heap:
             (effort, (i, j)) = heappop(heap)
 
@@ -58,8 +64,8 @@ class Solution(object):
                         abs(heights[x][y] - heights[i][j]),
                     )
 
-                    if new_effort < efforts[(x, y)]:
-                        efforts[(x, y)] = new_effort
+                    if new_effort < efforts[x][y]:
+                        efforts[x][y] = new_effort
                         heappush(heap, (new_effort, (x, y)))
 
 
