@@ -39,17 +39,33 @@ TIME: 305ms (Beats 70.87%)
 MEMORY: 19.16MB (Beats 90.47%)
 NOTE: I just replaced the efforts dictionary into an efforts matrix.
 Generally arrays are faster than dictionaries. Hence the great result!
+
+TIME: 286ms (Beats 79.38%)
+MEMORY: 19.65MB (Beats 54.16%)
+NOTE: I just prebinded value of infinity:
+    INF = float('inf')
+And suprisingly it improved my time a little bit. Thanks to ChatGPT for the idea.
+
+I also tried changing the if statement where I check if x and y are in bounds from:
+    if x >= 0 and y >= 0 and x < m and y < n:
+to:
+    if 0 <= x < m and 0 <= y < n:
+But it did not make any performance difference in this case.
+
+I ALSO tried adding `efforts[0][0] = 0` but it did not impact performance.
 """
 
 
 class Solution(object):
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        INF = float("inf")
         m, n = len(heights), len(heights[0])
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
         # Heap containing (effort, (row, col))
         heap = [(0, (0, 0))]
-        efforts = [[float("inf") for _ in range(n)] for _ in range(m)]
+        efforts = [[INF for _ in range(n)] for _ in range(m)]
+        efforts[0][0] = 0
         while heap:
             (effort, (i, j)) = heappop(heap)
 
@@ -58,7 +74,7 @@ class Solution(object):
 
             for dx, dy in directions:
                 x, y = i + dx, j + dy
-                if x >= 0 and y >= 0 and x < m and y < n:
+                if 0 <= x < m and 0 <= y < n:
                     new_effort = max(
                         effort,
                         abs(heights[x][y] - heights[i][j]),
