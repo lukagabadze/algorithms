@@ -7,9 +7,7 @@ class Solution:
         self, n: int, edges: List[List[int]]
     ) -> List[List[int]]:
         E = len(edges)
-
-        if E == 1:
-            return [[0], []]
+        INF = float("inf")
 
         graph = [[] for _ in range(n)]
         for i, (s, e, w) in enumerate(edges):
@@ -49,7 +47,7 @@ class Solution:
         critical_nodes = [
             i
             for i, val in enumerate(min_total_weights)
-            if val != min(min_total_weights)
+            if val != min(min_total_weights) or val == INF
         ]
 
         occurrences = [0] * E
@@ -138,6 +136,7 @@ if __name__ == "__main__":
         ),
         (2, [[0, 1, 3]]),
         (3, [[0, 1, 1], [0, 2, 2], [1, 2, 3]]),
+        (4, [[0, 1, 1], [0, 2, 2], [0, 3, 3]]),
     ]
 
     for n, edges in q:
