@@ -16,3 +16,6 @@ Good problem to start of with that is:
 
 NOTE: "399 Evaluate Division" seems like a great problem where it does not seem like the problem
 can be solved with graphs and BFS, but you CAN turn it into graphs and BFS for a clean solution.
+
+
+NOTE: "1971 Find if Path Exists in Graph" seems like a good Beginner level problem for BFS and Graphs.
