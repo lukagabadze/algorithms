@@ -4,6 +4,14 @@ from typing import List
 """
 TIME: 8ms (Beats 38.05%)
 MEMORY: 19.14MB (Beats 42.20%)
+
+TIME: 6ms (Beats 61.77%)
+MEMORY: 18.87MB (Beats 83.61%)
+NOTE: I changed the final line of the code where I counted all unique root nodes:
+        return len(set([find(i) for i in parent]))
+
+But now, I just check for nodes who are their own parents, indicating that they are the root nodes:
+        return sum(1 for i, val in enumerate(parent) if i == val)
 """
 
 
@@ -39,7 +47,7 @@ class Solution:
                 if i != j and isConnected[i][j] == 1:
                     union(i, j)
 
-        return len(set([find(i) for i in parent]))
+        return sum(1 for i, val in enumerate(parent) if i == val)
 
 
 if __name__ == "__main__":
