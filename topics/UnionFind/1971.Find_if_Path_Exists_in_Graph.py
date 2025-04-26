@@ -1,6 +1,17 @@
 """
 NOTE: While solving this problem using Disjtoint Set Union without using the "Union By Rank" optimization you WILL get TLE.
 (https://www.geeksforgeeks.org/introduction-to-disjoint-set-data-structure-or-union-find-algorithm/)
+
+NOTE: I noticed in small testcases that parent array and [find(i) for i in parent] were always the same.
+So I tried the following inside the union function, instead of having this code:
+        root_x = find(x)
+        root_y = find(y)
+
+I placed:
+        root_x = parent[x]
+        root_y = parent[y]
+
+Which resulted in the parent array getting messed up and an infinite cycle inside the find function 😁.
 """
 
 from typing import List
