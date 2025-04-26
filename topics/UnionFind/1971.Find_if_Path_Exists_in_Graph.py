@@ -10,6 +10,10 @@ from typing import List
 TIME: 232ms (Beats 97.71%)
 MEMORY: 83.34MB (Beats 96.08%)
 NOTE: Using Disjoint Set Union with Union By Rank optimization gives O(E*log(E)) time which is suprisingly faster than other solutions like BFS and DFS.
+
+TIME: 199ms (Beats 98.82%)
+MEMORY: 83.40MB (Beats 96.07%)
+NOTE: I just added a simple check inside the union function which checks if root_x == root_y then they are already in the same group, no need to "union" them.
 """
 
 
@@ -28,6 +32,9 @@ class Solution:
         def union(x: int, y: int):
             root_x = find(x)
             root_y = find(y)
+
+            if root_x == root_y:
+                return
 
             if rank[root_x] > rank[root_y]:
                 parent[root_y] = root_x
