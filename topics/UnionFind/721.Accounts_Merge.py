@@ -5,6 +5,9 @@ from collections import defaultdict
 """
 TIME: 727ms (Beats 5.00%)
 NOTE: This is union find without any optimizations (and also having the parent data structure as a dictionary and not an array)
+
+TIME: 49ms (Beats 22.90%)
+NOTE: I added union by rank and path compression optimizations to the union find algorithm and just look at the result FUCK ME I AM GOATED.
 """
 
 
@@ -12,15 +15,25 @@ class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
         n = len(accounts)
         parent = defaultdict(str)
+        rank = defaultdict(int)
 
         def find(mail: str):
             if parent[mail] != "" and parent[mail] != mail:
-                return find(parent[mail])
+                parent[mail] = find(parent[mail])
+                return parent[mail]
             return mail
 
         def union(name: str, mail: str):
+            name_root = find(name)
             mail_root = find(mail)
-            parent[mail_root] = name
+
+            if rank[name_root] > rank[mail_root]:
+                parent[mail_root] = name_root
+            elif rank[name_root] < rank[mail_root]:
+                parent[name_root] = mail_root
+            else:
+                parent[mail_root] = name_root
+                rank[name_root] += 1
 
         for i, info in enumerate(accounts):
             name = i
