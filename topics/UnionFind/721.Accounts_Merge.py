@@ -1,5 +1,4 @@
 from typing import List
-from collections import defaultdict
 
 
 """
@@ -8,24 +7,30 @@ NOTE: This is union find without any optimizations (and also having the parent d
 
 TIME: 49ms (Beats 22.90%)
 NOTE: I added union by rank and path compression optimizations to the union find algorithm and just look at the result FUCK ME I AM GOATED.
+
+TIME: 31ms (Beats 53.46%)
+NOTE: I changed the parent and rank dictionaries to arrays and introduced mail_ind_map dictionary,
+so I could run my algorithm faster with arrays but still keeping count on which mail is which index.
 """
 
 
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
         n = len(accounts)
-        parent = defaultdict(str)
-        rank = defaultdict(int)
+        m = n + sum(len(info[1:]) for info in accounts)
+        parent = list(range(m))
+        rank = [0] * m
+        mail_ind_map = dict()
 
-        def find(mail: str):
-            if parent[mail] != "" and parent[mail] != mail:
-                parent[mail] = find(parent[mail])
-                return parent[mail]
-            return mail
+        def find(node: int):
+            if parent[node] != "" and parent[node] != node:
+                parent[node] = find(parent[node])
+                return parent[node]
+            return node
 
-        def union(name: str, mail: str):
-            name_root = find(name)
-            mail_root = find(mail)
+        def union(name_node: int, mail_node: int):
+            name_root = find(name_node)
+            mail_root = find(mail_node)
 
             if rank[name_root] > rank[mail_root]:
                 parent[mail_root] = name_root
@@ -35,12 +40,21 @@ class Solution:
                 parent[mail_root] = name_root
                 rank[name_root] += 1
 
+        ind = n
         for i, info in enumerate(accounts):
             name = i
-            mails = info[1:]
 
-            for mail in mails:
-                union(name, mail)
+            for j, mail in enumerate(info[1:]):
+                mail_ind = ind + j
+
+                if mail in mail_ind_map:
+                    mail_ind = mail_ind_map[mail]
+                else:
+                    mail_ind_map[mail] = mail_ind
+
+                union(name, mail_ind)
+
+            ind += len(info) - 1
 
         merged_accounts = [[] for _ in range(n)]
         for i, info in enumerate(accounts):
