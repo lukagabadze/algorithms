@@ -53,6 +53,9 @@ class Solution:
 
         # The nubmer of edges we need to change is equal
         # to the number of unique roots inside the roots array minus one.
+        # This basically counts all the independent sections which need to be connected.
+        # A section might be a set of nodes or just one node.
+        # Either way, these sections need to connected
         changes_needed = len(set(roots)) - 1
 
         if edges_available < changes_needed:
