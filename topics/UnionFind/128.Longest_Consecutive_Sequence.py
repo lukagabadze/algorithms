@@ -1,3 +1,8 @@
+"""
+NOTE: This problem is NOT meant to be solved using DSU (Disjoint Set Union), I did it just to practice DSU.
+If you want a solid O(n) solution without any fancy algorithms, here it is: https://leetcode.com/problems/longest-consecutive-sequence/solutions/41057/simple-o-n-with-explanation-just-walk-each-streak
+"""
+
 from typing import List
 from collections import Counter
 
@@ -5,7 +10,6 @@ from collections import Counter
 """
 TIME: 275ms (Beats 5.06%)
 MEMORY: 48.63MB (Beats 5.16%)
-NOTE: Oof, this needs improving.
 """
 
 
