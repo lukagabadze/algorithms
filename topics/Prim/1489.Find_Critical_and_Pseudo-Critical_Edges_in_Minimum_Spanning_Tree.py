@@ -2,6 +2,13 @@ from typing import List
 from heapq import heappush, heappop
 
 
+"""
+TIME: 1834ms (Beats 5.10%)
+MEMORY: 18.18MB (Beats 38.64%)
+NOTE: This solution is super slow but it is MY solution, so I will keep it.
+"""
+
+
 class Solution:
     def findCriticalAndPseudoCriticalEdges(
         self, n: int, edges: List[List[int]]
@@ -16,28 +23,27 @@ class Solution:
 
         min_total_weights = []
         for i, (node1, node2, _) in enumerate(edges):
-            for start_node in range(n):
-                heap = [(0, start_node)]
-                total_weight = 0
-                visited = set()
-                while heap:
-                    weight, node = heappop(heap)
+            heap = [(0, 0)]
+            total_weight = 0
+            visited = set()
+            while heap:
+                weight, node = heappop(heap)
 
-                    if node in visited:
+                if node in visited:
+                    continue
+
+                visited.add(node)
+                total_weight += weight
+
+                for neighbour, neighbour_weight, _ in graph[node]:
+                    # Skip the selected edge
+                    if min(node, neighbour) == min(node1, node2) and max(
+                        node, neighbour
+                    ) == max(node1, node2):
                         continue
 
-                    visited.add(node)
-                    total_weight += weight
-
-                    for neighbour, neighbour_weight, _ in graph[node]:
-                        # Skip the selected edge
-                        if min(node, neighbour) == min(node1, node2) and max(
-                            node, neighbour
-                        ) == max(node1, node2):
-                            continue
-
-                        if neighbour not in visited:
-                            heappush(heap, (neighbour_weight, neighbour))
+                    if neighbour not in visited:
+                        heappush(heap, (neighbour_weight, neighbour))
 
             if len(visited) != n:
                 min_total_weights.append(float("inf"))
