@@ -1,0 +1,4 @@
+NOTE: The main difference between Prim's algorithm and Kruskal's algorithm:
+While Prim's algorithm constructs a tree based on neighbours and slowly adds to the tree,
+Kruskal's algorithm just chooses nodes with the minimum weight throughout the graph.
+They both assemble Minimum Spanning Tree (MST) but in 2 different fashions.
