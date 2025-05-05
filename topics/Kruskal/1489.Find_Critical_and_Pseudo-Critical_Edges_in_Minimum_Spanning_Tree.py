@@ -22,12 +22,12 @@ class UnionFind:
             return self.parent[node]
         return node
 
-    def union(self, a: int, b: int):
+    def union(self, a: int, b: int) -> bool:
         a_root = self.find(a)
         b_root = self.find(b)
 
         if a_root == b_root:
-            return
+            return False
 
         if self.rank[a_root] > self.rank[b_root]:
             self.parent[b_root] = a_root
@@ -37,12 +37,27 @@ class UnionFind:
             self.parent[b_root] = a_root
             self.rank[a_root] += 1
 
+        return True
+
 
 """
 TIME: 815ms (Beats 16.35%)
 MEMORY: 18.30MB (Beats 24.06%)
 NOTE: This solution is super clean and it is almost 3x faster than my Prim solution.
 But it is still very slow, I need to optimize it.
+
+TIME: 805ms (Beats 17.23%)
+NOTE: This is by just removing the print statement I left in there by accident.
+It was only one line of print statement, it was not even in a loop so no significant improvements.
+
+TIME: 445ms (Beats 82.77%)
+NOTE: 2 improvements have been made that boosted the performance by 2x (thanks to ChatGPT!):
+1) I added boolean return statements to the union method.
+If it was successful it returs True, otherwise it returns False.
+This makes it so I don't have to check if two nodes are connected with the find method before unioning them.
+
+2) Instead of using find method inside the range(n) loop to check if all nodes were connected,
+you can count all the unions you made, and if you made n - 1 unions (n - 1 edges), that means all n nodes have been connected.
 """
 
 
@@ -61,8 +76,6 @@ class Solution:
         edges = sorted(edges, key=lambda x: x[2])
 
         mst_weight = self.mst(n, edges, None, None)
-
-        print("mst_weight: ", mst_weight)
 
         for i in range(v):
             if mst_weight < self.mst(n, edges, i, None):
@@ -84,26 +97,27 @@ class Solution:
     ) -> int:
         uf = UnionFind(n)
         weight = 0
+        count = 0  # number of edges applied
 
         if include is not None:
             weight += edges[include][2]
             uf.union(edges[include][0], edges[include][1])
+            count += 1
 
         for i, [s, e, w, _] in enumerate(edges):
             if i == block:
                 continue
 
-            if uf.find(s) == uf.find(e):
-                continue
+            # if the union was successful update the weight and the count
+            if uf.union(s, e):
+                weight += w
+                count += 1
 
-            uf.union(s, e)
-            weight += w
+            # if n - 1 edges have been applied, that means we already unioned all n nodes
+            if count == n - 1:
+                break
 
-        for i in range(n):
-            if uf.find(0) != uf.find(i):
-                return float("inf")
-
-        return weight
+        return weight if count == n - 1 else float("inf")
 
 
 if __name__ == "__main__":
