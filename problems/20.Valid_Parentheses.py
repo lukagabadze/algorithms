@@ -1,25 +1,25 @@
+"""
+TIME: 10ms (Beats 4.38%)
+NOTE: Not fast, but super clean, just running a while loop until the string empties or does not change:
+        s = s.replace("()", "")
+        s = s.replace("[]", "")
+        s = s.replace("{}", "")
+"""
+
+
 class Solution(object):
     def isValid(self, s: str) -> bool:
-        i = 0
-        while i < len(s):
-            j = 1
-            while i + j < len(s) and i - j + 1 >= 0 and s[i + j] in [")", "]", "}"]:
-                if (
-                    (s[i + j] == ")" and s[i - j + 1] != "(")
-                    or (s[i + j] == "]" and s[i - j + 1] != "[")
-                    or (s[i + j] == "}" and s[i - j + 1] != "{")
-                ):
-                    return False
+        while s:
+            prev = s
 
-                j += 1
+            s = s.replace("()", "")
+            s = s.replace("[]", "")
+            s = s.replace("{}", "")
 
-            i += j
+            if prev == s:
+                return False
 
-        return (
-            s.count("(") == s.count(")")
-            and s.count("[") == s.count("]")
-            and s.count("{") == s.count("}")
-        )
+        return True
 
 
 if __name__ == "__main__":
@@ -35,6 +35,7 @@ if __name__ == "__main__":
         (""),
         ("]"),
         (")(){}"),
+        ("]["),
     ]
 
     for s in q:
