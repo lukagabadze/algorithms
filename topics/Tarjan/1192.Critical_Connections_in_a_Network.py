@@ -1,4 +1,21 @@
+"""
+NOTE: Important thing to note here is that the solution does not work if you don't change the connections array to a set.
+If you don't change it, removing an element from that array takes O(n) time, while with sets it takes O(1).
+
+So this two lines are important:
+    1) connections = set(map(tuple, map(sorted, connections)))
+    2) connections.remove(tuple(sorted((node, neighbour))))
+
+"""
+
 from typing import List
+
+
+"""
+TIME: 379ms (Beats 22.30%)
+NOTE: MASSIVE thanks to Kaiwen Sun for the amazing explanation!
+(https://leetcode.com/problems/critical-connections-in-a-network/solutions/382638/dfs-detailed-explanation-o-e-solution)
+"""
 
 
 class Solution(object):
@@ -11,6 +28,7 @@ class Solution(object):
             graph[e].append(s)
 
         lows = [-2] * n
+        connections = set(map(tuple, map(sorted, connections)))
 
         def dfs(node: int, depth: int) -> int:
             if lows[node] >= 0:
@@ -27,18 +45,14 @@ class Solution(object):
                 neighbour_low = dfs(neighbour, depth + 1)
 
                 if neighbour_low <= depth:
-                    if [node, neighbour] in connections:
-                        connections.remove([node, neighbour])
-                    if [neighbour, node] in connections:
-                        connections.remove([neighbour, node])
+                    connections.remove(tuple(sorted((node, neighbour))))
 
                 low_depth = min(low_depth, neighbour_low)
 
             return low_depth
 
         dfs(0, 0)
-
-        return connections
+        return list(connections)
 
 
 if __name__ == "__main__":
