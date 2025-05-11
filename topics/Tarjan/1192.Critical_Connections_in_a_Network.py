@@ -6,6 +6,10 @@ So this two lines are important:
     1) connections = set(map(tuple, map(sorted, connections)))
     2) connections.remove(tuple(sorted((node, neighbour))))
 
+
+NOTE: A funny thing to note is that I am not returning List[List[int]], I am returning List[Tuple[int]].
+Like so: [(3, 4), (2, 3)], when the output should be [[3, 4], [2, 3]].
+But leetcode does not bitch about it, it takes both answers.
 """
 
 from typing import List
