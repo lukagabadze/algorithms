@@ -1,0 +1,3 @@
+NOTE: It's a good distinction to call the start of the linked list "head".
+In trees for example you call the start "root" and I wanted to call it root here as well.
+But it would be better to identify the start as the "head" in case of linked lists.
