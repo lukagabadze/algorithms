@@ -1,4 +1,8 @@
 """
+NOTE: This problem is meant to be solved using Union Find for BEST performance!
+This problem is not a good fit for a BFS problem.
+It can be solved using BFS, but why tho.
+
 NOTE: "1 <= ai < bi <= edges.length" This constraint might be the KEY to returning the last edge in the input in case of multiple answers.
 Because currently I have NO clue how I can find the last edge in the input in O(n) time.
 """
@@ -15,6 +19,8 @@ NOTE: I don't like this, I need to improve this.
 TIME: 8ms (Beats 16.68%)
 MEMORY: 18.25MB (Beats 57.76%)
 NOTE: Not using a heap (priority queue) and just using deque saved me 3ms. But it is still NOT enough.
+
+NOTE: Gabo 1 month later here, this problem should be solved using Union Find to get the best performance.
 """
 
 

@@ -5,12 +5,19 @@ from typing import List
 TIME: 28ms (Beats 5.82%)
 NOTE: In this method I excluded an edge and unioned the rest of the edges, if it formed a tree, I returned True.
 This method sucks and is super super slow.
+
+TIME: 3ms (Beats 54.94%)
+NOTE: This is much much much better.
+Just union the edges until you detect a cycle.
+Once a cycle forms, return the edge that caused it.
 """
 
 
 class Solution(object):
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        n = len(edges)
+        n = len(edges) + 1
+        parent = list(range(n))
+        rank = [0] * n
 
         def find(node: int) -> int:
             if parent[node] != node:
@@ -23,29 +30,18 @@ class Solution(object):
             b_root = find(b)
 
             if a_root == b_root:
-                return
+                return False
 
             if rank[a_root] >= rank[b_root]:
                 parent[b_root] = a_root
             else:
                 parent[a_root] = b_root
 
-        # Exclude egdes in reversed since they ask for the answer that occurs last in the input.
-        for excluded_node_index in reversed(range(n)):
-            parent = list(range(n))
-            rank = [0] * n
+            return True
 
-            for i, [a, b] in enumerate(edges):
-                if i == excluded_node_index:
-                    continue
-
-                # The node numbers in the input start from 1 instead of 0
-                # so I have to subtract 1 from them so they can fit in the array
-                union(a - 1, b - 1)
-
-            roots = [find(i) for i in parent]
-            if all(x == roots[1] for x in roots):
-                return edges[excluded_node_index]
+        for a, b in edges:
+            if not union(a, b):
+                return [a, b]
 
 
 if __name__ == "__main__":
