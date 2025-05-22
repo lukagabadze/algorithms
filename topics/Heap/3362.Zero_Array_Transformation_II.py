@@ -27,7 +27,7 @@ class Solution(object):
         query_ind = 0
 
         for i in range(len(nums)):
-            # Remove available queries based on i
+            # Remove assigned queries based on i
             while assigned and assigned[0] < i:
                 heappop(assigned)
 
