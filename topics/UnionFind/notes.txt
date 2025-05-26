@@ -1,3 +1,6 @@
 Redundant Connection 1 and 2 are problems solved by Union Find
 
 "1319 Number of Operations to Make Network Connected" is a GOATED problem for understanding Union Find (Disjoint Set Union)
+
+
+NOTE: Union Find does NOT work in directed graphs to detect cycles 🥲🥲🥲
