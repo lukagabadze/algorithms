@@ -1,3 +1,7 @@
 "1372. Longest ZigZag Path in a Binary Tree" is a really really good DFS problem!
 Maybe not... turns out DFS and BFS have the same result in this problem ~~(slightly better if you use BFS actually)~~ (actually, after running the DFS one more time, it got slightly better result than BFS).
 BUT, you can still teach DFS using this problem, why not, you can use a stack and keep on popping until you zigzag your way through the tree.
+
+
+"1857. Largest Color Value in a Directed Graph" shows how to detect cycles in a DIRECTED GRAPH, something which Union Find is unable to do.
+Union Find can detect cycles in an UNDIRECTED GRAPH, but not in a DIRECTED one. You can uses markers in dfs which is shown beautifully in this problem.
