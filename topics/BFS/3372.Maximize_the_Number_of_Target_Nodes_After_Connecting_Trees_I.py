@@ -2,6 +2,17 @@ from typing import List
 from collections import deque
 
 
+"""
+TIME: 1907ms (Beats 40.94%)
+NOTE: This is with normal BFS using a visited set.
+
+TIME: 1545ms (Beats 77.95% 👏)
+NOTE: This is by removing the visited set from BFS and replacing it with an if statement to check that we are not visiting our parent node (the one we came from).
+This works because both graphs are actually just trees, with parents and children.
+This resulted in a pretty significant increase in performance.
+"""
+
+
 class Solution:
     def maxTargetNodes(
         self, edges1: List[List[int]], edges2: List[List[int]], k: int
@@ -24,19 +35,17 @@ class Solution:
             graph2[e].append(s)
 
         def find_count(graph: List[List[int]], start: int, limit: int) -> int:
-            queue = deque([(start, 0)])
-            visited = set([start])
+            queue = deque([(start, 0, -1)])
             count = 1
             while queue:
-                node, depth = queue.popleft()
+                node, depth, parent = queue.popleft()
 
                 if depth >= limit:
                     break
 
                 for neighbour in graph[node]:
-                    if neighbour not in visited:
-                        queue.append((neighbour, depth + 1))
-                        visited.add(neighbour)
+                    if neighbour != parent:
+                        queue.append((neighbour, depth + 1, node))
                         count += 1
 
             return count
