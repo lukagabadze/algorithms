@@ -2,6 +2,17 @@ from typing import List
 from collections import deque
 
 
+"""
+TIME: 713ms (Beats 19.32%)
+NOTE: Initial result.
+
+TIME: 483ms (Beats 62.50%)
+NOTE: I was counting even nodes from the root and from the child of the root in two different BFS calls.
+You can merge them in one, since EVEN nodes count from the "child of the root" is ODD nodes count from the "root".
+I also fill the answers array in the last BFS where I check for even and odd depths of the first tree.
+"""
+
+
 class Solution:
     def maxTargetNodes(
         self, edges1: List[List[int]], edges2: List[List[int]]
@@ -19,54 +30,41 @@ class Solution:
             graph2[s].append(e)
             graph2[e].append(s)
 
-        def find_even_count(graph: List[List[int]], start: int) -> int:
-            queue = deque([(start, 0, -1)])
-            count = 0
+        def find_odd_and_even_counts(graph: List[List[int]]) -> int:
+            queue = deque([(0, 0, -1)])
+            even = 0
+            odd = 0
             while queue:
                 node, depth, parent = queue.popleft()
 
                 if depth % 2 == 0:
-                    count += 1
+                    even += 1
+                else:
+                    odd += 1
 
                 for neighbour in graph[node]:
                     if neighbour != parent:
                         queue.append((neighbour, depth + 1, node))
 
-            return count
+            return [odd, even]
 
-        # Find the max even count of the second tree.
-        # It is either the count from the root or count from one of the roots children.
-        second_tree_max_even_count = max(
-            find_even_count(graph2, 0), find_even_count(graph2, graph2[0][0])
-        )
+        # Find the max count of the second tree between odd and even depths.
+        second_tree_max_even_count = max(find_odd_and_even_counts(graph2))
 
-        # Map out every node from the first tree as odds and evens.
-        node_even = [False] * n
+        even_count, odd_count = find_odd_and_even_counts(graph1)
+        answers = [second_tree_max_even_count] * n
         queue = deque([(0, 0, -1)])
         while queue:
             node, depth, parent = queue.popleft()
 
             if depth % 2 == 0:
-                node_even[node] = True
+                answers[node] += odd_count
+            else:
+                answers[node] += even_count
 
             for neighbour in graph1[node]:
                 if neighbour != parent:
                     queue.append((neighbour, depth + 1, node))
-
-        # If a node is even we should add the odd count to the answer,
-        # otherwise, if its depth is odd, add even count.
-        odd_count = find_even_count(graph1, 0)
-        even_count = find_even_count(graph1, graph1[0][0])
-        answers = []
-        for i in range(n):
-            count = second_tree_max_even_count
-
-            if node_even[i]:
-                count += odd_count
-            else:
-                count += even_count
-
-            answers.append(count)
 
         return answers
 
