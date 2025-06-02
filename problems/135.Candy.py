@@ -1,41 +1,43 @@
+"""
+NOTE: Thanks to Arun Kumar for the clean solution!
+(https://leetcode.com/problems/candy/solutions/6803186/easy-to-understand-approach)
+"""
+
 from typing import List
-from collections import deque
 
 
 class Solution(object):
     def candy(self, ratings: List[int]) -> int:
         n = len(ratings)
 
-        order = sorted([(rating, i) for i, rating in enumerate(ratings)])
+        # Left-to-Right
+        l2r = [1] * n
+        for i in range(1, n):
+            if ratings[i] > ratings[i - 1]:
+                l2r[i] = l2r[i - 1] + 1
 
-        queue = deque([ind for [_, ind] in order])
-        visited = [False] * n
-        answers = [0] * n
-        while queue:
-            ind = queue.popleft()
+        r2l = [1] * n
+        for i in reversed(range(n - 1)):
+            if ratings[i] > ratings[i + 1]:
+                r2l[i] = r2l[i + 1] + 1
 
-            if visited[ind]:
-                continue
+        answer = 0
+        for i in range(n):
+            answer += max(l2r[i], r2l[i])
 
-            visited[ind] = True
-
-            # Check left
-            if ind > 0 and not visited[ind - 1] and ratings[ind - 1] > ratings[ind]:
-                answers[ind - 1] = answers[ind] + 1
-                queue.append(ind - 1)
-
-            # Check right
-            if ind < n - 1 and not visited[ind + 1] and ratings[ind + 1] > ratings[ind]:
-                answers[ind + 1] = answers[ind] + 1
-                queue.append(ind + 1)
-
-        return sum(answers) + n
+        return answer
 
 
 if __name__ == "__main__":
     solution = Solution()
 
-    q = [([1, 0, 2]), ([1, 2, 2]), ([7, 6, 9, 3, 4, 6, 10]), ([0, 1, 2, 3, 2, 1])]
+    q = [
+        ([1, 0, 2]),
+        ([1, 2, 2]),
+        ([7, 6, 9, 3, 4, 6, 10]),
+        ([0, 1, 2, 3, 2, 1]),
+        ([1, 2, 87, 87, 87, 2, 1]),
+    ]
 
     for ratings in q:
         print("ratings: ", ratings)
