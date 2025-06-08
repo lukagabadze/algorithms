@@ -1,9 +1,6 @@
 from heapq import heappush, heappop
 
 
-"""
-
-"""
 class Solution:
     def clearStars(self, s: str) -> str:
         n = len(s)
