@@ -2,20 +2,33 @@ from typing import List
 
 
 class Solution(object):
-    def minimizeMax(self, nums: List[int], p: int) -> int:
-        return self.find(sorted(nums), p)
+    nums = []
+    cache = []
 
-    def find(self, nums: List[int], p: int) -> int:
+    def minimizeMax(self, nums: List[int], p: int) -> int:
+        self.nums = sorted(nums)
+        self.cache = [[[] for _ in range(p + 1)] for _ in nums]
+
+        return self.find(0, p)
+
+    def find(self, i: int, p: int) -> int:
         if p <= 0:
             return 0
 
-        if len(nums) <= 1:
+        if i > len(self.nums) - 2:
             return float("inf")
 
-        return min(
-            max(self.pair(nums[0], nums[1]), self.find(nums[2:], p - 1)),
-            self.find(nums[1:], p),
+        if self.cache[i][p]:
+            return self.cache[i][p]
+
+        answer = min(
+            max(self.pair(self.nums[i], self.nums[i + 1]), self.find(i + 2, p - 1)),
+            self.find(i + 1, p),
         )
+
+        self.cache[i][p] = answer
+
+        return answer
 
     def pair(self, num1: int, num2: int) -> int:
         return abs(num1 - num2)
