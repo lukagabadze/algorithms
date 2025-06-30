@@ -1,5 +1,5 @@
 """
-NOTE: Had no time today so I had to read the solution eary!
+NOTE: Had no time today so I had to read the solution early!
 HUGE thanks to varma_5247 for the solution!
 (https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/solutions/6896464/beginner-freindly-java-c-python-js)
 """
