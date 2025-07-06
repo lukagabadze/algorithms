@@ -3,3 +3,7 @@ It would be a good idea to implement binary search by hand first and then learn 
 
 - Good example of using binary search might be in Insertion Sort,
 you can probably turn O(n^2) into O(n*log(n)) using binary search to find the insertion place
+
+
+NOTE: "875. Koko Eating Bananas" is a GREAT problem where you run binary search on an answer that is NOT an index.
+Usually left and right values are indexes, but here it's something else, it's an answer!
