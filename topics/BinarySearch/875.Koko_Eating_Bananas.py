@@ -1,5 +1,21 @@
 from typing import List
-import math
+
+
+"""
+TIME: 161ms (Beats 45.37%)
+NOTE: This is my initial solution, using math.ceil to calculate hours.
+
+TIME: 151ms (Beats 78.19%)
+NOTE: Removing math.ceil call speeds up the solution by 10ms!! (Not much but cool).
+
+NOTE: Also, this is how you remove math.ceil here:
+    math.ceil(p / mid)
+
+This, turns into this:
+    (p + mid - 1) // mid
+
+It gives the same result!
+"""
 
 
 class Solution(object):
@@ -11,7 +27,7 @@ class Solution(object):
 
             hours = 0
             for p in piles:
-                hours += math.ceil(p / mid)
+                hours += (p + mid - 1) // mid
 
             if hours <= h:
                 right = mid
