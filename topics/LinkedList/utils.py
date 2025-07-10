@@ -22,7 +22,7 @@ def print_linked_list(head: ListNode):
         return
 
     while head:
-        print(head.val, end=" -> ")
+        print(head.val, end=" -> " if head.next is not None else "")
         head = head.next
 
     print()

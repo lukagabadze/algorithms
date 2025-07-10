@@ -42,7 +42,11 @@ class Solution(object):
 if __name__ == "__main__":
     solution = Solution()
 
-    q = [([1, 2, 4], [1, 3, 4]), ([], []), ([1, 9], [10, 11])]
+    q = [
+        ([1, 2, 4], [1, 3, 4]),
+        ([], []),
+        ([1, 9], [10, 11]),
+    ]
 
     for list1, list2 in q:
         print("list1: ", list1)
