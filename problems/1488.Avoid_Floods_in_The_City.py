@@ -1,5 +1,6 @@
 from typing import List
 from collections import defaultdict
+from bisect import bisect_right
 
 """
 TIME: 307ms
@@ -29,18 +30,9 @@ class Solution(object):
                 if drain_inds[-1] < lake[r]:
                     return []
 
-                left = 0
-                right = len(drain_inds) - 1
-                while left < right:
-                    m = (left + right) // 2
-                    if lake[r] <= drain_inds[m]:
-                        right = m
-                    else:
-                        left = m + 1
-
-                drain_ind = drain_inds[left]
-                drain_inds.pop(left)
-                drains[drain_ind] = r
+                drain_ind = bisect_right(drain_inds, lake[r])
+                drained = drain_inds.pop(drain_ind)
+                drains[drained] = r
 
             lake[r] = i
 
