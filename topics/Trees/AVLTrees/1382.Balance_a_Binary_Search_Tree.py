@@ -117,58 +117,41 @@ class Solution(object):
 if __name__ == "__main__":
     solution = Solution()
 
-    # # Left heavy, tests right rotation
-    # tree = [5, 3, None, 1]
+    
+    q = [
+        # Left heavy, tests right rotation
+        ([5, 3, None, 1]),
 
-    # # Right heavy, tests left rotation
-    # tree = [9, None, 10, None, 11]
+        # Right heavy, tests left rotation
+        ([9, None, 10, None, 11]),
 
-    # # Mix of Left heavy and right heavy
-    # tree = [8, 5, 12, 3, None, 9, 16, 1, None, None, 10, None, None, None, None, None, 11]
+        # Mix of Left heavy and right heavy
+        ([8, 5, 12, 3, None, 9, 16, 1, None, None, 10, None, None, None, None, None, 11]),
 
-    # LR, Left Right heavy
-    # tree = [5, 1, None, None, 3]
+        # LR, Left Right heavy
+        ([5, 1, None, None, 3]),
 
-    # RL, Right Left heavy
-    # tree = [9, None, 11, 10]
+        # RL, Right Left heavy
+        ([9, None, 11, 10]),
 
-    # Mix of LR and RL rotations
-    # tree = [8, 5, 12, 1, None, 9, 16, None, 3, None, 11, None, None, None, None, 10]
+        # Mix of LR and RL rotations
+        ([8, 5, 12, 1, None, 9, 16, None, 3, None, 11, None, None, None, None, 10]),
 
-    # tree = [3, 0, 4, None, 2, None, None, 1]
-    # tree = [1,None,2,None,3,None,4]
-    tree = [
-        1,
-        None,
-        15,
-        14,
-        17,
-        7,
-        None,
-        None,
-        None,
-        2,
-        12,
-        None,
-        3,
-        9,
-        None,
-        None,
-        None,
-        None,
-        11,
+        ([3, 0, 4, None, 2, None, None, 1]),
+        ([1,None,2,None,3,None,4]),
+        ([15, 2, 25, 1, 3, 14, 26]),
+        ([9, 2, 14, 1, 3, 11, 15, None, None, None, 7, None, 12, None, 17]),
+        ([3, 2, 9, None, None, 7, 11, None, None, None, 12]),
     ]
-    # tree = [15, 2, 25, 1, 3, 14, 26]
 
-    # tree = [9, 2, 14, 1, 3, 11, 15, None, None, None, 7, None, 12, None, 17]
+    for tree in q:
+        root = array_to_node_tree(tree)
 
-    # tree = [3, 2, 9, None, None, 7, 11, None, None, None, 12]
-
-    root = array_to_node_tree(tree)
-
-    print("BEFORE")
-    print_tree(root)
-    answer = solution.balanceBST(root)
-    print("\n")
-    print("AFTER")
-    print_tree(answer)
+        print("BEFORE")
+        print_tree(root)
+        answer = solution.balanceBST(root)
+        print("\n")
+        print("AFTER")
+        print_tree(answer)
+        print("============")
+        print()
