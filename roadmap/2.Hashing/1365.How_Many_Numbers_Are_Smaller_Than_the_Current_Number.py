@@ -1,37 +1,28 @@
 from typing import List
-from collections import defaultdict
 
 """
 TIME: 3ms (Beats 72.87%)
 NOTE: By counting the frequency of each element and summing the prefixes in sorted order
 you get the result straight away. But my implementation is a lil dogshit, that's why i got 3ms instead of 1ms.
+
+TIME: 4ms (Beats 61.80%)
+NOTE: I cleaned up the code a lot, the performance difference is minimal,
+it is way better to solve this problem like so: by sorting the array,
+going through it and remembering the indexes in a hashmap.
+(Don't forget that a single num can show up multiple times, hence `if num not in ans_map:`)
 """
 
 
 class Solution(object):
     def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
-        freq = defaultdict(int)
-        for i, num in enumerate(nums):
-            freq[num] += 1
+        snums = sorted(nums)
 
-        sorted_nums = sorted(nums)
         ans_map = {}
-        ans_map[sorted_nums[0]] = 0
-        for i, num in enumerate(sorted_nums):
-            if i == 0:
-                continue
+        for ind, num in enumerate(snums):
+            if num not in ans_map:
+                ans_map[num] = ind
 
-            if num in ans_map:
-                continue
-
-            prev_num = sorted_nums[i - 1]
-            ans_map[num] = ans_map[prev_num] + freq[prev_num]
-
-        ans = []
-        for nums in nums:
-            ans.append(ans_map[nums])
-
-        return ans
+        return [ans_map[num] for num in nums]
 
 
 if __name__ == "__main__":
